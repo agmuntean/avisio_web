@@ -42,9 +42,9 @@ export default function BackgroundLayer({ children }: BackgroundLayerProps) {
         style={{
           opacity: clampedWarmOpacity,
           background: `
-            radial-gradient(ellipse 80% 50% at 20% 40%, rgba(224, 122, 95, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse 60% 40% at 80% 60%, rgba(255, 162, 22, 0.1) 0%, transparent 50%),
-            radial-gradient(ellipse 100% 60% at 50% 50%, rgba(224, 122, 95, 0.08) 0%, transparent 60%)
+            radial-gradient(ellipse 80% 50% at 20% 40%, var(--gradient-warm-1) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 80% 60%, var(--gradient-warm-2) 0%, transparent 50%),
+            radial-gradient(ellipse 100% 60% at 50% 50%, var(--gradient-warm-3) 0%, transparent 60%)
           `,
         }}
       />

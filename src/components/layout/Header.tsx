@@ -12,7 +12,7 @@ function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="relative w-10 h-10 flex items-center justify-center rounded-lg hover:bg-foreground-base/10 transition-colors"
+      className="relative w-10 h-10 flex items-center justify-center rounded-lg hover:bg-foreground/10 transition-colors"
       aria-label={theme === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro"}
     >
       {/* Sun icon */}
@@ -109,7 +109,7 @@ export default function Header() {
               <a
                 href="#como-funciona"
                 onClick={(e) => handleScroll(e, "como-funciona")}
-                className="font-sans text-foreground-base hover:text-primary transition-colors"
+                className="font-sans text-foreground hover:text-primary transition-colors"
               >
                 Cómo funciona
               </a>
@@ -118,7 +118,7 @@ export default function Header() {
               <a
                 href="#sobre-nosotros"
                 onClick={(e) => handleScroll(e, "sobre-nosotros")}
-                className="font-sans text-foreground-base hover:text-primary transition-colors"
+                className="font-sans text-foreground hover:text-primary transition-colors"
               >
                 Sobre nosotros
               </a>
@@ -127,7 +127,7 @@ export default function Header() {
               <a
                 href="#footer"
                 onClick={(e) => handleScroll(e, "footer")}
-                className="font-sans bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
+                className="font-sans bg-primary text-primary-foreground px-5 py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
               >
                 Solicita una demo
               </a>
@@ -146,17 +146,17 @@ export default function Header() {
             aria-expanded={isMenuOpen}
           >
             <span
-              className={`block w-6 h-0.5 bg-foreground-base transition-all duration-300 ${
+              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
                 isMenuOpen ? "rotate-45 translate-y-2" : ""
               }`}
             />
             <span
-              className={`block w-6 h-0.5 bg-foreground-base transition-all duration-300 ${
+              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
                 isMenuOpen ? "opacity-0" : ""
               }`}
             />
             <span
-              className={`block w-6 h-0.5 bg-foreground-base transition-all duration-300 ${
+              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
                 isMenuOpen ? "-rotate-45 -translate-y-2" : ""
               }`}
             />
@@ -174,7 +174,7 @@ export default function Header() {
               <a
                 href="#como-funciona"
                 onClick={(e) => handleScroll(e, "como-funciona")}
-                className="block font-sans text-foreground-base hover:text-primary transition-colors py-2"
+                className="block font-sans text-foreground hover:text-primary transition-colors py-2"
               >
                 Cómo funciona
               </a>
@@ -183,7 +183,7 @@ export default function Header() {
               <a
                 href="#sobre-nosotros"
                 onClick={(e) => handleScroll(e, "sobre-nosotros")}
-                className="block font-sans text-foreground-base hover:text-primary transition-colors py-2"
+                className="block font-sans text-foreground hover:text-primary transition-colors py-2"
               >
                 Sobre nosotros
               </a>
@@ -192,7 +192,7 @@ export default function Header() {
               <a
                 href="#footer"
                 onClick={(e) => handleScroll(e, "footer")}
-                className="inline-block font-sans bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
+                className="inline-block font-sans bg-primary text-primary-foreground px-5 py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
               >
                 Solicita una demo
               </a>

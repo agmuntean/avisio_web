@@ -3,41 +3,94 @@
 @tailwind utilities;
 
 /* ============================================
-   THEME VARIABLES
+   THEME VARIABLES - Following Avisio Design System
    ============================================ */
 
 :root {
-  /* Brand Colors */
-  --color-primary: #390099;
-  --color-primary-light: #EBD9FF;
-  --color-primary-electric: #8B5CF6;
+  /* Core Colors - Light Mode (Default) */
+  --background: #FAF8F5;
+  --foreground: #1A1714;
 
-  /* Accent Colors */
-  --color-terracotta: #E07A5F;
-  --color-amber: #FFA216;
-  --color-rose: #EE1548;
+  /* Primary - Deep Purple in light, Electric Purple in dark */
+  --primary: #390099;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary */
+  --secondary: #EBD9FF;
+  --secondary-foreground: #390099;
+
+  /* Accent - Terracotta in light, Gold in dark */
+  --accent: #E07A5F;
+  --accent-foreground: #FFFFFF;
+
+  /* Muted */
+  --muted: #E5E7EB;
+  --muted-foreground: #6B7280;
+
+  /* Card */
+  --card: #FFFFFF;
+  --card-foreground: #1A1714;
+
+  /* Border */
+  --border: #E5E5E5;
+  --input: #E5E5E5;
+  --ring: #390099;
 
   /* Footer */
   --footer-height: 340px;
 
-  /* Light Mode (default) */
-  --bg-base: #FAF8F5;
-  --bg-base-rgb: 250, 248, 245;
-  --text-primary: #1A1714;
-  --text-secondary: #6B7280;
-
-  /* Gradient blob colors */
+  /* Gradient blob colors - Light mode */
   --blob-purple-core: #390099;
   --blob-purple-electric: #8B5CF6;
   --blob-rose: #EE1548;
   --blob-amber: #FFA216;
+
+  /* Warm gradient overlay colors */
+  --gradient-warm-1: rgba(224, 122, 95, 0.15);
+  --gradient-warm-2: rgba(255, 162, 22, 0.1);
+  --gradient-warm-3: rgba(224, 122, 95, 0.08);
 }
 
 [data-theme="dark"] {
-  --bg-base: #17120F;
-  --bg-base-rgb: 23, 18, 15;
-  --text-primary: #F5F1E8;
-  --text-secondary: #8A8579;
+  /* Core Colors - Dark Mode */
+  --background: #17120F;
+  --foreground: #F5F1E8;
+
+  /* Primary - Electric Purple (lighter for dark bg) */
+  --primary: #8B5CF6;
+  --primary-foreground: #FFFFFF;
+
+  /* Secondary */
+  --secondary: #2D1B69;
+  --secondary-foreground: #B794F4;
+
+  /* Accent - Gold (different from light mode) */
+  --accent: #F59E0B;
+  --accent-foreground: #130E0B;
+
+  /* Muted */
+  --muted: #2B2622;
+  --muted-foreground: #8A8579;
+
+  /* Card */
+  --card: #1B1816;
+  --card-foreground: #F5F1E8;
+
+  /* Border */
+  --border: #33302E;
+  --input: #33302E;
+  --ring: #8B5CF6;
+
+  /* Gradient blob colors - Dark mode (same for visual consistency) */
+  --blob-purple-core: #390099;
+  --blob-purple-electric: #8B5CF6;
+  --blob-rose: #EE1548;
+  --blob-amber: #FFA216;
+
+  /* Warm gradient overlay colors - slightly adjusted for dark */
+  --gradient-warm-1: rgba(245, 158, 11, 0.12);
+  --gradient-warm-2: rgba(139, 92, 246, 0.08);
+  --gradient-warm-3: rgba(245, 158, 11, 0.06);
 }
 
 /* ============================================
@@ -45,12 +98,13 @@
    ============================================ */
 
 html {
-  background-color: var(--color-primary);
+  /* Footer reveal background - uses theme-aware primary */
+  background-color: var(--primary);
 }
 
 body {
   background-color: transparent;
-  color: var(--text-primary);
+  color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: color 0.3s ease;
@@ -174,14 +228,17 @@ html.lenis body {
 
 .bg-layer {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: var(--footer-height);
   pointer-events: none;
   z-index: 0;
   transition: opacity 0.5s ease;
 }
 
 .bg-layer-base {
-  background-color: var(--bg-base);
+  background-color: var(--background);
   transition: background-color 0.3s ease;
 }
 

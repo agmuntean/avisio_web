@@ -9,26 +9,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Theme-aware colors (use CSS variables)
+        background: "var(--background)",
+        foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "var(--color-primary)",
-          light: "#EBD9FF",
-          electric: "#8B5CF6",
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
+        },
+        secondary: {
+          DEFAULT: "var(--secondary)",
+          foreground: "var(--secondary-foreground)",
         },
         accent: {
-          terracotta: "#E07A5F",
-          amber: "#FFA216",
-          rose: "#EE1548",
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-foreground)",
         },
-        background: {
-          base: "var(--bg-base)",
-          light: "#FAF8F5",
-          dark: "#17120F",
+        muted: {
+          DEFAULT: "var(--muted)",
+          foreground: "var(--muted-foreground)",
         },
-        foreground: {
-          base: "var(--text-primary)",
-          light: "#1A1714",
-          dark: "#F5F1E8",
+        card: {
+          DEFAULT: "var(--card)",
+          foreground: "var(--card-foreground)",
         },
+        border: "var(--border)",
+        input: "var(--input)",
+        ring: "var(--ring)",
       },
       fontFamily: {
         display: ["var(--font-dm-serif)", "Georgia", "serif"],

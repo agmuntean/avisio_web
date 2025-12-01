@@ -28,7 +28,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 py-12 md:py-16">
         {/* CTA Section */}
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-white mb-8">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-primary-foreground mb-8">
             Pruébalo con tus propios PDFs.
           </h2>
 
@@ -45,7 +45,7 @@ export default function Footer() {
                 value={formData.nombre}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg bg-white text-foreground-light placeholder:text-foreground-light/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+                className="w-full px-4 py-3 rounded-lg bg-white text-gray-900 placeholder:text-gray-900/50 focus:outline-none focus:ring-2 focus:ring-white/50"
               />
             </div>
             <div className="flex-1">
@@ -60,7 +60,7 @@ export default function Footer() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg bg-white text-foreground-light placeholder:text-foreground-light/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+                className="w-full px-4 py-3 rounded-lg bg-white text-gray-900 placeholder:text-gray-900/50 focus:outline-none focus:ring-2 focus:ring-white/50"
               />
             </div>
             <div className="flex-1">
@@ -75,7 +75,7 @@ export default function Footer() {
                 value={formData.empresa}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg bg-white text-foreground-light placeholder:text-foreground-light/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+                className="w-full px-4 py-3 rounded-lg bg-white text-gray-900 placeholder:text-gray-900/50 focus:outline-none focus:ring-2 focus:ring-white/50"
               />
             </div>
             <button
@@ -88,21 +88,21 @@ export default function Footer() {
         </div>
 
         {/* Legal Section */}
-        <div className="border-t border-white/20 pt-6">
+        <div className="border-t border-primary-foreground/20 pt-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/70 text-sm font-sans">
+            <p className="text-primary-foreground/70 text-sm font-sans">
               &copy; {new Date().getFullYear()} Axiomik Systems SL
             </p>
             <div className="flex items-center gap-6">
               <Link
                 href="#"
-                className="text-white/70 text-sm font-sans hover:text-white transition-colors"
+                className="text-primary-foreground/70 text-sm font-sans hover:text-primary-foreground transition-colors"
               >
                 Privacidad
               </Link>
               <Link
                 href="#"
-                className="text-white/70 text-sm font-sans hover:text-white transition-colors"
+                className="text-primary-foreground/70 text-sm font-sans hover:text-primary-foreground transition-colors"
               >
                 Términos
               </Link>
