@@ -14,24 +14,16 @@ export default function BackgroundLayer({ children }: BackgroundLayerProps) {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = Math.min(scrollY / docHeight, 1);
+      const progress = docHeight > 0 ? Math.min(scrollY / docHeight, 1) : 0;
       setScrollProgress(progress);
     };
 
-    // Use Lenis scroll event if available, otherwise native
-    const lenis = window.lenis;
-    if (lenis) {
-      lenis.on("scroll", handleScroll);
-    } else {
-      window.addEventListener("scroll", handleScroll, { passive: true });
-    }
+    // Use native scroll - works alongside Lenis without interference
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial call
 
     return () => {
-      if (lenis) {
-        lenis.off("scroll", handleScroll);
-      } else {
-        window.removeEventListener("scroll", handleScroll);
-      }
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
