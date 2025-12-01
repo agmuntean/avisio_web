@@ -6,7 +6,6 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import GradientBlob from "@/components/background/GradientBlob";
 import BackgroundLayer from "@/components/background/BackgroundLayer";
 
 const dmSerif = DM_Serif_Display({
@@ -38,7 +37,6 @@ export default function RootLayout({
       <body className="font-sans">
         <ThemeProvider>
           <LenisProvider>
-            <GradientBlob />
             <BackgroundLayer>
               <Header />
               {children}

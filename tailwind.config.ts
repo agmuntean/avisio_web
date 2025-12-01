@@ -47,6 +47,10 @@ const config: Config = {
           "2xl": "1400px",
         },
       },
+      spacing: {
+        "section": "clamp(6rem, 15vh, 12rem)",
+        "section-sm": "clamp(4rem, 10vh, 8rem)",
+      },
     },
   },
   plugins: [],

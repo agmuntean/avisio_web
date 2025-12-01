@@ -19,20 +19,20 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center"
+      className="relative min-h-screen flex items-center justify-center px-6"
     >
-      <div className="container max-w-4xl">
-        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl text-foreground text-center transition-colors">
+      <div className="relative z-10 max-w-5xl">
+        <h1 className="font-display text-hero text-foreground text-center text-balance transition-colors">
           Hacienda manda. Tú apruebas. Nosotros curramos.
         </h1>
-        <p className="font-sans text-lg md:text-xl text-muted-foreground text-center mt-6 md:mt-8 transition-colors">
+        <p className="font-sans text-subhead text-muted-foreground text-center mt-8 md:mt-10 max-w-2xl mx-auto transition-colors">
           Extracción con IA. Recordatorios inteligentes. Clientes informados.
         </p>
-        <div className="flex justify-center mt-8 md:mt-12">
+        <div className="flex justify-center mt-10 md:mt-14">
           <a
             href="#footer"
             onClick={handleCTAClick}
-            className="font-sans bg-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors"
+            className="font-sans bg-primary text-primary-foreground px-10 py-5 rounded-xl text-lg font-semibold hover:bg-primary/90 transition-all hover:scale-[1.02]"
           >
             Solicita una demo
           </a>

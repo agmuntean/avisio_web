@@ -37,17 +37,8 @@ export default function BackgroundLayer({ children }: BackgroundLayerProps) {
       <div className="bg-layer bg-layer-base" />
 
       {/* Warm mesh gradient overlay (terracotta zone) */}
-      <div
-        className="bg-layer mesh-gradient-warm"
-        style={{
-          opacity: clampedWarmOpacity,
-          background: `
-            radial-gradient(ellipse 80% 50% at 20% 40%, var(--gradient-warm-1) 0%, transparent 50%),
-            radial-gradient(ellipse 60% 40% at 80% 60%, var(--gradient-warm-2) 0%, transparent 50%),
-            radial-gradient(ellipse 100% 60% at 50% 50%, var(--gradient-warm-3) 0%, transparent 60%)
-          `,
-        }}
-      />
+      {/* Warm mesh gradient overlay REMOVED for cleaner hero gradient */}
+      {/* <div className="bg-layer mesh-gradient-warm" ... /> */}
 
       {/* Content */}
       <div className="relative z-10">{children}</div>
