@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   THEME VARIABLES
+   ============================================ */
+
+:root {
+  /* Brand Colors */
+  --color-primary: #390099;
+  --color-primary-light: #EBD9FF;
+  --color-primary-electric: #8B5CF6;
+
+  /* Accent Colors */
+  --color-terracotta: #E07A5F;
+  --color-amber: #FFA216;
+  --color-rose: #EE1548;
+
+  /* Footer */
+  --footer-height: 340px;
+
+  /* Light Mode (default) */
+  --bg-base: #FAF8F5;
+  --bg-base-rgb: 250, 248, 245;
+  --text-primary: #1A1714;
+  --text-secondary: #6B7280;
+
+  /* Gradient blob colors */
+  --blob-purple-core: #390099;
+  --blob-purple-electric: #8B5CF6;
+  --blob-rose: #EE1548;
+  --blob-amber: #FFA216;
+}
+
+[data-theme="dark"] {
+  --bg-base: #17120F;
+  --bg-base-rgb: 23, 18, 15;
+  --text-primary: #F5F1E8;
+  --text-secondary: #8A8579;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  background-color: var(--color-primary);
+}
+
+body {
+  background-color: transparent;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: color 0.3s ease;
+}
+
+/* ============================================
+   LENIS SMOOTH SCROLL
+   ============================================ */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ============================================
+   FOOTER REVEAL
+   ============================================ */
+
+.footer-reveal-spacer {
+  margin-bottom: var(--footer-height);
+}
+
+/* ============================================
+   GRADIENT BLOB ANIMATION
+   ============================================ */
+
+@keyframes blob-breathe {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.85;
+  }
+  25% {
+    transform: scale(1.02) rotate(1deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.05) rotate(-1deg);
+    opacity: 0.95;
+  }
+  75% {
+    transform: scale(1.02) rotate(0.5deg);
+    opacity: 0.88;
+  }
+}
+
+@keyframes blob-morph {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 40% 70% 50%;
+  }
+  75% {
+    border-radius: 40% 60% 50% 40% / 60% 50% 40% 60%;
+  }
+}
+
+@keyframes blob-float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  33% {
+    transform: translateY(-15px) translateX(10px);
+  }
+  66% {
+    transform: translateY(10px) translateX(-5px);
+  }
+}
+
+.gradient-blob {
+  animation:
+    blob-breathe 5s ease-in-out infinite,
+    blob-morph 8s ease-in-out infinite,
+    blob-float 12s ease-in-out infinite;
+  will-change: transform, opacity, border-radius;
+}
+
+.gradient-blob-inner {
+  animation: blob-morph 6s ease-in-out infinite reverse;
+}
+
+/* ============================================
+   MESH GRADIENT TRANSITIONS
+   ============================================ */
+
+@keyframes warm-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.mesh-gradient-warm {
+  animation: warm-pulse 6s ease-in-out infinite;
+}
+
+/* ============================================
+   BACKGROUND LAYERS
+   ============================================ */
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+.bg-layer-base {
+  background-color: var(--bg-base);
+}
+
+/* ============================================
+   THEME TRANSITION
+   ============================================ */
+
+.theme-transition {
+  transition:
+    background-color 0.4s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Accessible reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-blob,
+  .gradient-blob-inner,
+  .mesh-gradient-warm {
+    animation: none;
+  }
+}
