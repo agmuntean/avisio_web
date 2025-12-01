@@ -56,8 +56,8 @@
   --background: #17120F;
   --foreground: #F5F1E8;
 
-  /* Primary - Electric Purple (lighter for dark bg) */
-  --primary: #8B5CF6;
+  /* Primary - Vibrant Purple for dark mode */
+  --primary: #6227e6;
   --primary-foreground: #FFFFFF;
 
   /* Secondary */
