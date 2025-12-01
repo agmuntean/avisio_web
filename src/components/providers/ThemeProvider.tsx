@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 
 type Theme = "light" | "dark";
 
@@ -9,42 +9,47 @@ type ThemeContextType = {
   toggleTheme: () => void;
 };
 
-const ThemeContext = createContext<ThemeContextType>({
-  theme: "light",
-  toggleTheme: () => {},
-});
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function useTheme() {
-  return useContext(ThemeContext);
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within ThemeProvider");
+  }
+  return context;
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
 
+  // Initialize theme from localStorage/system preference on mount
   useEffect(() => {
-    setMounted(true);
     const stored = localStorage.getItem("avisio-theme") as Theme | null;
-    if (stored) {
+    if (stored && (stored === "light" || stored === "dark")) {
       setTheme(stored);
+      document.documentElement.setAttribute("data-theme", stored);
     } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setTheme("dark");
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
     }
   }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("avisio-theme", theme);
-    }
-  }, [theme, mounted]);
+  // Sync theme changes to DOM and localStorage
+  const applyTheme = useCallback((newTheme: Theme) => {
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("avisio-theme", newTheme);
+  }, []);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const newTheme = prev === "light" ? "dark" : "light";
+      applyTheme(newTheme);
+      return newTheme;
+    });
+  }, [applyTheme]);
 
-  // Always provide the real toggleTheme function
-  // Use the actual theme state (defaults to "light" before mount)
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
