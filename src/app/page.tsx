@@ -7,7 +7,7 @@ import About from "@/components/sections/About";
 
 export default function Home() {
   return (
-    <main className="relative z-10 bg-background-light pb-24 footer-reveal-spacer">
+    <main className="relative z-10 bg-background-base pb-24 footer-reveal-spacer transition-colors duration-300">
       <Hero />
       <Problem />
       <Solution />

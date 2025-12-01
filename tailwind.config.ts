@@ -20,10 +20,12 @@ const config: Config = {
           rose: "#EE1548",
         },
         background: {
+          base: "var(--bg-base)",
           light: "#FAF8F5",
           dark: "#17120F",
         },
         foreground: {
+          base: "var(--text-primary)",
           light: "#1A1714",
           dark: "#F5F1E8",
         },

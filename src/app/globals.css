@@ -182,6 +182,7 @@ html.lenis body {
 
 .bg-layer-base {
   background-color: var(--bg-base);
+  transition: background-color 0.3s ease;
 }
 
 /* ============================================
