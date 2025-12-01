@@ -11,9 +11,20 @@ export default function Solution() {
         <p className="font-sans text-xl md:text-2xl text-muted-foreground text-center mt-4 transition-colors">
           Mismo PDF. Distinto final.
         </p>
-        <p className="font-sans text-xl md:text-2xl text-foreground text-center mt-12 md:mt-16 transition-colors">
-          Lo subes. Lo leemos. Lo apruebas. Lo enviamos.
-        </p>
+        <div className="mt-12 md:mt-16 space-y-4 md:space-y-6">
+          <p className="font-sans text-xl md:text-2xl text-foreground text-center transition-colors">
+            Lo subes.
+          </p>
+          <p className="font-sans text-xl md:text-2xl text-foreground text-center transition-colors">
+            Lo leemos.
+          </p>
+          <p className="font-sans text-xl md:text-2xl text-foreground text-center transition-colors">
+            Lo apruebas.
+          </p>
+          <p className="font-sans text-xl md:text-2xl text-foreground text-center transition-colors">
+            Lo enviamos.
+          </p>
+        </div>
         <div className="mt-12 md:mt-16 space-y-2">
           <p className="font-sans text-xl md:text-2xl text-muted-foreground text-center transition-colors">
             Tu cliente recibe el aviso.
