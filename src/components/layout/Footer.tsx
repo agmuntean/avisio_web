@@ -88,21 +88,21 @@ export default function Footer() {
         </div>
 
         {/* Legal Section */}
-        <div className="border-t border-primary-foreground/20 pt-6">
+        <div className="border-t border-white/20 pt-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-primary-foreground/70 text-sm font-sans">
+            <p className="text-white/70 text-sm font-sans">
               &copy; {new Date().getFullYear()} Axiomik Systems SL
             </p>
             <div className="flex items-center gap-6">
               <Link
                 href="#"
-                className="text-primary-foreground/70 text-sm font-sans hover:text-primary-foreground transition-colors"
+                className="text-white/70 text-sm font-sans hover:text-white transition-colors"
               >
                 Privacidad
               </Link>
               <Link
                 href="#"
-                className="text-primary-foreground/70 text-sm font-sans hover:text-primary-foreground transition-colors"
+                className="text-white/70 text-sm font-sans hover:text-white transition-colors"
               >
                 Términos
               </Link>
