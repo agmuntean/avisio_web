@@ -53,6 +53,7 @@ function ThemeToggle() {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme } = useTheme();
 
   const handleScroll = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -95,7 +96,7 @@ export default function Header() {
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <Image
-              src="/avisio-logo-full.svg"
+              src={theme === "dark" ? "/avisio-logo-full-light.svg" : "/avisio-logo-full.svg"}
               alt="Avisio"
               width={120}
               height={32}
