@@ -1,12 +1,33 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import HeroVisuals from "./HeroVisuals";
 
+// Animation timing constants (in seconds)
+const TIMING = {
+  headlineDelay: [0.5, 0.7, 0.9],
+  headlineDuration: 0.4,
+  subheadDelay: 1.3,
+  subheadDuration: 0.4,
+  buttonDelay: 1.6,
+  buttonDuration: 0.3,
+};
+
 export default function Hero() {
   const { theme, toggleTheme } = useTheme();
+  const hasScrolledRef = useRef(false);
+
+  // Handle scroll interruption - we'll use CSS to handle the snap
+  useEffect(() => {
+    const handleScroll = () => {
+      hasScrolledRef.current = true;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleCTAClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -24,23 +45,32 @@ export default function Hero() {
     []
   );
 
+  // Headline lines for animation
+  const headlineLines = [
+    "Hacienda manda.",
+    "Tú apruebas.",
+    "Nosotros curramos.",
+  ];
+
   return (
     <section
       id="hero"
       className="relative h-screen hero-gradient"
       style={{
-        // Proportional padding from edges (based on 1440px viewport)
-        // ~60px padding at 1440px = 4.17vw
         padding: "4.17vw",
       }}
     >
       {/* Scalable Logo - Top Left */}
-      {/* Reference: 120px at 1440px viewport */}
-      {/* Width: 120/1440 = 8.33vw */}
-      <div
+      <motion.div
         style={{
           width: "8.33vw",
-          minWidth: "80px", // Minimum for readability
+          minWidth: "80px",
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: 0.8,
+          ease: "easeOut",
         }}
       >
         <Image
@@ -58,20 +88,17 @@ export default function Hero() {
             height: "auto",
           }}
         />
-      </div>
+      </motion.div>
 
       {/* Hero Content - Left Side, Vertically Centered */}
       <div
         className="absolute left-0 top-1/2 -translate-y-1/2"
         style={{
-          // Left padding matches section padding
           paddingLeft: "4.17vw",
-          // Wider container to fit 3 lines
           width: "55vw",
         }}
       >
-        {/* Headline - 3 lines, each in a span for animation */}
-        {/* At 1440px, 80px = 5.56vw */}
+        {/* Headline - 3 lines, each animates separately */}
         <h1
           className="font-display text-foreground transition-colors"
           style={{
@@ -80,30 +107,55 @@ export default function Hero() {
             letterSpacing: "-0.02em",
           }}
         >
-          <span className="block">Hacienda manda.</span>
-          <span className="block">Tú apruebas.</span>
-          <span className="block">Nosotros curramos.</span>
+          {headlineLines.map((line, index) => (
+            <motion.span
+              key={line}
+              className="block"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: TIMING.headlineDuration,
+                delay: TIMING.headlineDelay[index],
+                ease: "easeOut",
+              }}
+            >
+              {line}
+            </motion.span>
+          ))}
         </h1>
 
-        {/* Subhead - 3 lines */}
-        {/* At 1440px, roughly 24-28px = ~1.67-1.94vw */}
-        <div
+        {/* Subhead - slides in from left as one unit */}
+        <motion.div
           className="font-sans text-muted-foreground transition-colors"
           style={{
             fontSize: "1.67vw",
             lineHeight: 1.6,
             marginTop: "2.78vw",
           }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: TIMING.subheadDuration,
+            delay: TIMING.subheadDelay,
+            ease: "easeOut",
+          }}
         >
           <p>Extracción con IA.</p>
           <p>Recordatorios inteligentes.</p>
           <p>Clientes informados.</p>
-        </div>
+        </motion.div>
 
-        {/* CTA Button */}
-        <div
+        {/* CTA Button - fades in last */}
+        <motion.div
           style={{
-            marginTop: "3.47vw", // ~50px at 1440px
+            marginTop: "3.47vw",
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: TIMING.buttonDuration,
+            delay: TIMING.buttonDelay,
+            ease: "easeOut",
           }}
         >
           <a
@@ -111,20 +163,20 @@ export default function Hero() {
             onClick={handleCTAClick}
             className="font-sans bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all hover:scale-[1.02] inline-block"
             style={{
-              fontSize: "1.04vw", // ~15px at 1440px
-              padding: "0.83vw 1.67vw", // ~12px 24px at 1440px
+              fontSize: "1.04vw",
+              padding: "0.83vw 1.67vw",
             }}
           >
             Solicita una demo
           </a>
-        </div>
+        </motion.div>
       </div>
 
       {/* Hero Visuals - Blob + Sphere on right side */}
       <HeroVisuals />
 
       {/* Temporary Theme Toggle - Top Right */}
-      <button
+      <motion.button
         type="button"
         onClick={toggleTheme}
         className="absolute top-[4.17vw] right-[4.17vw] z-10 flex items-center justify-center rounded-lg text-foreground bg-transparent hover:bg-foreground/10 transition-colors"
@@ -136,6 +188,12 @@ export default function Hero() {
           border: "1px solid var(--foreground-75)",
         }}
         aria-label={theme === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro"}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: 0.8,
+          ease: "easeOut",
+        }}
       >
         <svg
           className={`text-foreground transition-transform duration-300 ${theme === "light" ? "rotate-180" : "rotate-0"}`}
@@ -151,7 +209,7 @@ export default function Hero() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
           )}
         </svg>
-      </button>
+      </motion.button>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
 
 export default function HeroVisuals() {
@@ -14,13 +15,21 @@ export default function HeroVisuals() {
     <div
       className="absolute top-1/2 -translate-y-1/2"
       style={{
-        // Position on right side - closer to edge
         right: "2vw",
-        // Size based on blob: ~740px at 1440px = 51.4vw
         width: "51.4vw",
-        height: "52.6vw", // slightly taller (1091/1067 ratio)
+        height: "52.6vw",
       }}
     >
+      <motion.div
+        className="w-full h-full"
+        style={{ transformOrigin: "center center" }}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          ease: "easeOut",
+        }}
+      >
       {/* Blob - fills container */}
       <div className="absolute inset-0">
         <Image
@@ -43,11 +52,9 @@ export default function HeroVisuals() {
         className="absolute"
         style={{
           zIndex: 1,
-          // Center the sphere within the blob, offset ~20px to the right
           top: "50%",
           left: "calc(50% + 1.39vw)",
           transform: "translate(-50%, -50%)",
-          // Sphere is 37% of blob width
           width: "37%",
           height: "37%",
         }}
@@ -62,6 +69,7 @@ export default function HeroVisuals() {
           priority
         />
       </div>
+      </motion.div>
     </div>
   );
 }
