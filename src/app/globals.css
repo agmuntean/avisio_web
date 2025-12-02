@@ -35,6 +35,7 @@
   --border: #E5E5E5;
   --input: #E5E5E5;
   --ring: #390099;
+  --foreground-75: rgba(26, 23, 20, 0.25);
 
   /* Footer */
   --footer-height: 340px;
@@ -80,6 +81,7 @@
   --border: #33302E;
   --input: #33302E;
   --ring: #8B5CF6;
+  --foreground-75: rgba(245, 241, 232, 0.25);
 
   /* Gradient blob colors - Dark mode (same for visual consistency) */
   --blob-purple-core: #390099;
@@ -258,8 +260,9 @@ html.lenis body {
    ============================================ */
 
 /* Hero headline - Massive, commanding, dominates viewport */
+/* 100px at 1480px viewport = 6.76vw, scales down to ~40px on mobile, max 100px */
 .text-hero {
-  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-size: clamp(2.5rem, 6.76vw, 6.25rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
@@ -297,11 +300,87 @@ html.lenis body {
   text-wrap: balance;
 }
 
+/* ============================================
+   HERO GRADIENT - Container for animated blobs
+   ============================================ */
+
+.hero-gradient {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================
+   ORGANIC PULSATING BLOB ANIMATIONS
+   ============================================ */
+
+@keyframes blob-float-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(-30px, 40px) scale(1.08) rotate(12deg);
+  }
+  50% {
+    transform: translate(25px, -35px) scale(0.95) rotate(-8deg);
+  }
+  75% {
+    transform: translate(-20px, -25px) scale(1.05) rotate(15deg);
+  }
+}
+
+@keyframes blob-float-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  20% {
+    transform: translate(35px, -30px) scale(1.12) rotate(-18deg);
+  }
+  45% {
+    transform: translate(-40px, 20px) scale(0.92) rotate(22deg);
+  }
+  70% {
+    transform: translate(15px, 35px) scale(1.06) rotate(-10deg);
+  }
+}
+
+@keyframes blob-float-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  30% {
+    transform: translate(-25px, -40px) scale(0.97) rotate(25deg);
+  }
+  55% {
+    transform: translate(40px, 30px) scale(1.1) rotate(-15deg);
+  }
+  80% {
+    transform: translate(-35px, 15px) scale(1.03) rotate(20deg);
+  }
+}
+
+.animate-blob-1 {
+  animation: blob-float-1 18s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.animate-blob-2 {
+  animation: blob-float-2 23s ease-in-out infinite 2s;
+  transform-origin: center;
+}
+
+.animate-blob-3 {
+  animation: blob-float-3 16s ease-in-out infinite 4s;
+  transform-origin: center;
+}
+
 /* Accessible reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .gradient-blob,
   .gradient-blob-inner,
-  .mesh-gradient-warm {
+  .mesh-gradient-warm,
+  .animate-blob-1,
+  .animate-blob-2,
+  .animate-blob-3 {
     animation: none;
   }
 }
