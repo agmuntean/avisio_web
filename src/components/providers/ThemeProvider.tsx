@@ -6,6 +6,7 @@ type Theme = "light" | "dark";
 
 type ThemeContextType = {
   theme: Theme;
+  mounted: boolean;
   toggleTheme: () => void;
 };
 
@@ -29,7 +30,8 @@ function getInitialTheme(): Theme {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [theme, setTheme] = useState<Theme>("light");
+  const [mounted, setMounted] = useState(false);
 
   // Sync React state with DOM on mount (blocking script already set the attribute)
   useEffect(() => {
@@ -37,6 +39,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (currentTheme && (currentTheme === "light" || currentTheme === "dark")) {
       setTheme(currentTheme);
     }
+    setMounted(true);
   }, []);
 
   // Sync theme changes to DOM and localStorage
@@ -54,7 +57,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [applyTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, mounted, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

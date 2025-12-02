@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
 
 export default function HeroVisuals() {
-  const { theme } = useTheme();
+  const { theme, mounted } = useTheme();
 
   // Blob native: 1067×1091, Sphere native: 391×395
   // Sphere is ~37% the size of blob (391/1067 ≈ 0.37)
@@ -24,7 +24,7 @@ export default function HeroVisuals() {
         className="w-full h-full"
         style={{ transformOrigin: "center center" }}
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
+        animate={{ opacity: mounted ? 1 : 0, scale: mounted ? 1 : 0.8 }}
         transition={{
           duration: 0.8,
           ease: "easeOut",
@@ -32,19 +32,21 @@ export default function HeroVisuals() {
       >
       {/* Blob - fills container */}
       <div className="absolute inset-0">
-        <Image
-          src={
-            theme === "light"
-              ? "/hero-blob-light.svg"
-              : "/hero-blob-dark.svg"
-          }
-          alt=""
-          fill
-          style={{
-            objectFit: "contain",
-          }}
-          priority
-        />
+        {mounted && (
+          <Image
+            src={
+              theme === "light"
+                ? "/hero-blob-light.svg"
+                : "/hero-blob-dark.svg"
+            }
+            alt=""
+            fill
+            style={{
+              objectFit: "contain",
+            }}
+            priority
+          />
+        )}
       </div>
 
       {/* Sphere - centered, ~37% of blob size */}
@@ -59,15 +61,17 @@ export default function HeroVisuals() {
           height: "37%",
         }}
       >
-        <Image
-          src="/hero-sphere.svg"
-          alt=""
-          fill
-          style={{
-            objectFit: "contain",
-          }}
-          priority
-        />
+        {mounted && (
+          <Image
+            src="/hero-sphere.svg"
+            alt=""
+            fill
+            style={{
+              objectFit: "contain",
+            }}
+            priority
+          />
+        )}
       </div>
       </motion.div>
     </div>
