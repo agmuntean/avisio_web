@@ -27,13 +27,27 @@ export const metadata: Metadata = {
     "Avisio automatiza el procesamiento de notificaciones de la AEAT para gestorías. Reduce el tiempo de gestión de documentos de 30-40 minutos a menos de 5.",
 };
 
+// Blocking script to prevent theme flash - runs before React hydration
+const themeScript = `
+(function() {
+  try {
+    var stored = localStorage.getItem('avisio-theme');
+    var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${dmSerif.variable} ${ibmPlex.variable}`}>
+    <html lang="es" className={`${dmSerif.variable} ${ibmPlex.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="font-sans">
         <ThemeProvider>
           <LenisProvider>

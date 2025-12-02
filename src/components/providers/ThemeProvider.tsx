@@ -19,20 +19,23 @@ export function useTheme() {
   return context;
 }
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+// Helper to get initial theme - reads from DOM attribute set by blocking script
+function getInitialTheme(): Theme {
+  if (typeof window !== "undefined") {
+    const attr = document.documentElement.getAttribute("data-theme");
+    if (attr === "dark" || attr === "light") return attr;
+  }
+  return "light";
+}
 
-  // Initialize theme from localStorage/system preference on mount
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+  // Sync React state with DOM on mount (blocking script already set the attribute)
   useEffect(() => {
-    const stored = localStorage.getItem("avisio-theme") as Theme | null;
-    if (stored && (stored === "light" || stored === "dark")) {
-      setTheme(stored);
-      document.documentElement.setAttribute("data-theme", stored);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
+    const currentTheme = document.documentElement.getAttribute("data-theme") as Theme;
+    if (currentTheme && (currentTheme === "light" || currentTheme === "dark")) {
+      setTheme(currentTheme);
     }
   }, []);
 
