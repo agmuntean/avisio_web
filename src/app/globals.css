@@ -124,6 +124,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: color 0.3s ease;
+  overflow-x: hidden;
+  /* Ensure full width even with scrollbar */
+  width: 100vw;
 }
 
 /* ============================================
