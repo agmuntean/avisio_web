@@ -1,34 +1,249 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+
+// Phrase data with alignment and bar colors
+const phrases = [
+  { text: "Abrir el PDF.", align: "left", barColor: "var(--phrase-bar-1)" },
+  { text: "Buscar los datos.", align: "right", barColor: "var(--phrase-bar-2)" },
+  { text: "Copiar a mano.", align: "left", barColor: "var(--phrase-bar-1)" },
+  { text: "Cruzar los dedos.", align: "right", barColor: "var(--phrase-bar-2)" },
+  { text: "Recordar el vencimiento.", align: "left", barColor: "var(--phrase-bar-1)" },
+  { text: "Avisar al cliente.", align: "right", barColor: "var(--phrase-bar-2)" },
+] as const;
+
+// Individual phrase component with scroll-driven bar animation
+// Bar extends from viewport edge to edge, text is knocked out showing page background
+function BarPhrase({
+  text,
+  align,
+  barColor,
+  scrollProgress,
+  revealStart,
+  revealEnd,
+}: {
+  text: string;
+  align: "left" | "right";
+  barColor: string;
+  scrollProgress: MotionValue<number>;
+  revealStart: number;
+  revealEnd: number;
+}) {
+  // Bar width as percentage (0 to 100)
+  const barWidthNum = useTransform(
+    scrollProgress,
+    [revealStart, revealEnd],
+    [0, 100]
+  );
+
+  // Clip path to reveal bar from left or right
+  // Left: inset(0 100% 0 0) -> inset(0 0% 0 0)  (reveals left to right)
+  // Right: inset(0 0 0 100%) -> inset(0 0 0 0%) (reveals right to left)
+  const clipPath = useTransform(barWidthNum, (w) => {
+    if (align === "left") {
+      return `inset(0 ${100 - w}% 0 0)`;
+    } else {
+      return `inset(0 0 0 ${100 - w}%)`;
+    }
+  });
+
+  return (
+    <div
+      className="relative"
+      style={{
+        // Break out of container to span full viewport width
+        marginLeft: "calc(-50vw + 50%)",
+        marginRight: "calc(-50vw + 50%)",
+        width: "100vw",
+      }}
+    >
+      {/* The bar layer - clipped to reveal progressively */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundColor: barColor,
+          clipPath,
+        }}
+      />
+
+      {/* Text with knockout effect - uses mix-blend-mode */}
+      {/* Container constrains text width while bar spans full viewport */}
+      <div
+        className="relative max-w-5xl mx-auto"
+        style={{
+          paddingLeft: "4.17vw",
+          paddingRight: "4.17vw",
+          paddingTop: "0.8vw",
+          paddingBottom: "0.8vw",
+          isolation: "isolate",
+        }}
+      >
+        <p
+          className="font-sans font-normal"
+          style={{
+            fontSize: "clamp(1.25rem, 3vw, 2.5rem)",
+            lineHeight: 1.3,
+            textAlign: align,
+            color: "var(--background)",
+            mixBlendMode: "difference",
+          }}
+        >
+          {text}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function Problem() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const phrasesRef = useRef<HTMLDivElement>(null);
+
+  // Track scroll progress for headline reveal
+  const { scrollYProgress: headlineProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.85", "start 0.15"],
+  });
+
+  // Track scroll progress for phrases section
+  // Starts later (0.7) so headline has time to fully reveal first
+  const { scrollYProgress: phrasesProgress } = useScroll({
+    target: phrasesRef,
+    offset: ["start 0.7", "end 0.3"],
+  });
+
+  // Headline reveals
+  const line1Progress = useTransform(headlineProgress, [0, 0.5], [100, 0]);
+  const line2Progress = useTransform(headlineProgress, [0.5, 1], [100, 0]);
+  const line1Position = useTransform(headlineProgress, [0, 0.5], [0, 100]);
+  const line2Position = useTransform(headlineProgress, [0.5, 1], [0, 100]);
+  const line1Opacity = useTransform(
+    headlineProgress,
+    [0, 0.02, 0.48, 0.5],
+    [0, 1, 1, 0]
+  );
+  const line2Opacity = useTransform(
+    headlineProgress,
+    [0.5, 0.52, 0.98, 1],
+    [0, 1, 1, 0]
+  );
+
+  // Each phrase gets 1/6 of the scroll range
+  const phraseSegment = 1 / 6;
+
   return (
     <section
+      ref={sectionRef}
       id="problema"
-      className="min-h-screen flex items-center justify-center py-section px-6"
+      className="px-6"
+      style={{
+        paddingTop: "2vw",
+        paddingBottom: "12vw",
+      }}
     >
-      <div className="max-w-4xl">
-        <h2 className="font-display text-section-title text-foreground text-center text-balance transition-colors">
-          Cada notificación, el mismo ritual.
-        </h2>
-        <div className="mt-16 md:mt-20 space-y-5 md:space-y-7">
-          <p className="font-sans text-body-large text-muted-foreground text-center transition-colors">
-            Abrir el PDF.
-          </p>
-          <p className="font-sans text-body-large text-muted-foreground text-center transition-colors">
-            Buscar los datos.
-          </p>
-          <p className="font-sans text-body-large text-muted-foreground text-center transition-colors">
-            Copiar a mano.
-          </p>
-          <p className="font-sans text-body-large text-muted-foreground text-center transition-colors">
-            Cruzar los dedos.
-          </p>
-          <p className="font-sans text-body-large text-muted-foreground text-center transition-colors">
-            Recordar el vencimiento.
-          </p>
-          <p className="font-sans text-body-large text-muted-foreground text-center transition-colors">
-            Avisar al cliente.
-          </p>
+      {/* Headline with Scroll-Driven Line Sweep Reveal */}
+      <div className="flex flex-col items-center">
+        {/* Line 1: "CADA NOTIFICACIÓN," */}
+        <div className="relative overflow-hidden inline-block">
+          <motion.div
+            className="font-display text-foreground uppercase transition-colors"
+            style={{
+              fontSize: "clamp(2.5rem, 10vw, 12rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              clipPath: useTransform(line1Progress, (v) => `inset(0 ${v}% 0 0)`),
+            }}
+          >
+            CADA NOTIFICACIÓN,
+          </motion.div>
+
+          {/* Sweeping vertical line for Line 1 */}
+          <motion.div
+            className="absolute top-0 bottom-0 pointer-events-none"
+            style={{
+              width: "2px",
+              background:
+                "linear-gradient(180deg, transparent 0%, var(--primary) 15%, var(--primary) 85%, transparent 100%)",
+              boxShadow: "0 0 20px var(--primary), 0 0 40px var(--primary)",
+              left: useTransform(line1Position, (v) => `${v}%`),
+              opacity: line1Opacity,
+            }}
+          />
         </div>
-        <p className="font-sans text-statement text-foreground text-center mt-16 md:mt-20 font-medium transition-colors">
+
+        {/* Line 2: "EL MISMO RITUAL." */}
+        <div className="relative overflow-hidden inline-block">
+          <motion.div
+            className="font-display text-foreground uppercase transition-colors"
+            style={{
+              fontSize: "clamp(2.5rem, 10vw, 12rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              clipPath: useTransform(line2Progress, (v) => `inset(0 ${v}% 0 0)`),
+            }}
+          >
+            EL MISMO RITUAL.
+          </motion.div>
+
+          {/* Sweeping vertical line for Line 2 */}
+          <motion.div
+            className="absolute top-0 bottom-0 pointer-events-none"
+            style={{
+              width: "2px",
+              background:
+                "linear-gradient(180deg, transparent 0%, var(--primary) 15%, var(--primary) 85%, transparent 100%)",
+              boxShadow: "0 0 20px var(--primary), 0 0 40px var(--primary)",
+              left: useTransform(line2Position, (v) => `${v}%`),
+              opacity: line2Opacity,
+            }}
+          />
+        </div>
+      </div>
+
+      {/* 6 phrases - alternating layout with colored bars */}
+      <div
+        ref={phrasesRef}
+        className="max-w-5xl mx-auto"
+        style={{
+          marginTop: "10vw",
+        }}
+      >
+        <div
+          className="flex flex-col"
+          style={{
+            gap: "1vw",
+          }}
+        >
+          {phrases.map((phrase, index) => {
+            const revealStart = index * phraseSegment;
+            const revealEnd = revealStart + phraseSegment * 0.9;
+
+            return (
+              <BarPhrase
+                key={index}
+                text={phrase.text}
+                align={phrase.align}
+                barColor={phrase.barColor}
+                scrollProgress={phrasesProgress}
+                revealStart={revealStart}
+                revealEnd={revealEnd}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Closer - the sigh, exhausted finality */}
+      <div className="max-w-5xl mx-auto text-center">
+        <p
+          className="font-sans text-foreground font-medium transition-colors"
+          style={{
+            marginTop: "10vw",
+            fontSize: "clamp(1.25rem, 3vw, 2.25rem)",
+            lineHeight: 1.25,
+          }}
+        >
           Y mañana, otro más.
         </p>
       </div>
