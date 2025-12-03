@@ -2,34 +2,95 @@ export default function Solution() {
   return (
     <section
       id="solucion"
-      className="min-h-screen flex items-center justify-center py-section px-6"
+      className="px-6"
+      style={{
+        paddingTop: "12vw",
+        paddingBottom: "12vw",
+      }}
     >
-      <div className="max-w-4xl">
-        <h2 className="font-display text-section-title text-foreground text-center text-balance transition-colors">
-          Con Avisio, otro ritual.
-        </h2>
-        <p className="font-sans text-subhead text-muted-foreground text-center mt-4 transition-colors">
+      {/* Headline - EDGE TO EDGE, mirror bookend to Problem */}
+      <h2
+        className="font-display text-foreground uppercase transition-colors text-center"
+        style={{
+          fontSize: "clamp(2.5rem, 10vw, 12rem)",
+          lineHeight: 0.95,
+          letterSpacing: "-0.03em",
+        }}
+      >
+        CON AVISIO,
+        <br />
+        OTRO RITUAL.
+      </h2>
+
+      <div className="max-w-5xl mx-auto text-center">
+        {/* Subhead - statement level, impactful */}
+        <p
+          className="font-sans text-muted-foreground transition-colors"
+          style={{
+            marginTop: "3vw",
+            fontSize: "clamp(1.5rem, 4vw, 3rem)",
+            lineHeight: 1.2,
+          }}
+        >
           Mismo PDF. Distinto final.
         </p>
-        <div className="mt-16 md:mt-20 space-y-5 md:space-y-7">
-          <p className="font-sans text-body-large text-foreground text-center transition-colors">
+
+        {/* 4 phrases - same treatment as Problem */}
+        <div
+          className="flex flex-col"
+          style={{
+            marginTop: "8vw",
+            gap: "3vw",
+          }}
+        >
+          <p
+            className="font-sans text-foreground transition-colors"
+            style={{ fontSize: "clamp(1.25rem, 3vw, 2.5rem)", lineHeight: 1.3 }}
+          >
             Lo subes.
           </p>
-          <p className="font-sans text-body-large text-foreground text-center transition-colors">
+          <p
+            className="font-sans text-foreground transition-colors"
+            style={{ fontSize: "clamp(1.25rem, 3vw, 2.5rem)", lineHeight: 1.3 }}
+          >
             Lo leemos.
           </p>
-          <p className="font-sans text-body-large text-foreground text-center transition-colors">
+          <p
+            className="font-sans text-foreground transition-colors"
+            style={{ fontSize: "clamp(1.25rem, 3vw, 2.5rem)", lineHeight: 1.3 }}
+          >
             Lo apruebas.
           </p>
-          <p className="font-sans text-body-large text-foreground text-center transition-colors">
+          <p
+            className="font-sans text-foreground transition-colors"
+            style={{ fontSize: "clamp(1.25rem, 3vw, 2.5rem)", lineHeight: 1.3 }}
+          >
             Lo enviamos.
           </p>
         </div>
-        <div className="mt-16 md:mt-20 space-y-3">
-          <p className="font-sans text-body-large text-muted-foreground text-center transition-colors">
+
+        {/* Closer - emotional payoff */}
+        <div
+          className="flex flex-col"
+          style={{
+            marginTop: "8vw",
+            gap: "1.5vw",
+          }}
+        >
+          <p
+            className="font-sans text-muted-foreground transition-colors"
+            style={{ fontSize: "clamp(1.25rem, 3vw, 2.5rem)", lineHeight: 1.3 }}
+          >
             Tu cliente recibe el aviso.
           </p>
-          <p className="font-display text-statement text-foreground text-center transition-colors">
+          {/* "Tú, el café." - THE emotional payoff, display font for emphasis */}
+          <p
+            className="font-display text-foreground transition-colors italic"
+            style={{
+              fontSize: "clamp(1.5rem, 4vw, 3rem)",
+              lineHeight: 1.15,
+            }}
+          >
             Tú, el café.
           </p>
         </div>
