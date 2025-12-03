@@ -15,7 +15,8 @@ export default function HeroVisuals({ scrollProgress, entranceComplete = false }
 
   // Exit transforms - starts after headlines begin (0.12), before subhead (0.15)
   // Sequence: Headlines (0) → Blob (0.12) → Subhead (0.15) → CTA (0.25)
-  const visualsOpacity = useTransform(scrollProgress ?? new MotionValue(), [0.12, 0.45], [1, 0]);
+  // Scale and Y movement, no opacity fade
+  const visualsY = useTransform(scrollProgress ?? new MotionValue(), [0.12, 0.45], [0, -40]);
   const visualsScale = useTransform(scrollProgress ?? new MotionValue(), [0.12, 0.45], [1, 0.7]);
 
   // Blob native: 1067×1091, Sphere native: 391×395
@@ -37,7 +38,7 @@ export default function HeroVisuals({ scrollProgress, entranceComplete = false }
           transformOrigin: "center center",
           ...(entranceComplete && scrollProgress
             ? {
-                opacity: visualsOpacity,
+                y: visualsY,
                 scale: visualsScale,
               }
             : {}),

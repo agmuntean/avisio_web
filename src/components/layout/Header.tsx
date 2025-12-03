@@ -54,7 +54,7 @@ function ThemeToggle() {
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { theme } = useTheme();
+  const { theme, mounted } = useTheme();
 
   // Track scroll position to toggle header style
   useEffect(() => {
@@ -113,22 +113,35 @@ export default function Header() {
       style={{
         backgroundColor: isScrolled ? "rgba(var(--background-rgb), 0.90)" : "transparent",
         borderColor: isScrolled ? "rgba(var(--foreground-rgb), 0.1)" : "transparent",
+        opacity: mounted ? 1 : 0,
+        transition: "opacity 0.5s ease-out, background-color 0.3s, border-color 0.3s, padding 0.3s",
       }}
     >
       <div
-        className={`container mx-auto px-6 transition-all duration-300 ${
-          isScrolled ? "py-4" : "py-8"
-        }`}
+        className="transition-all duration-300"
+        style={{
+          paddingLeft: "4.17vw",
+          paddingRight: "4.17vw",
+          paddingTop: isScrolled ? "16px" : "32px",
+          paddingBottom: isScrolled ? "16px" : "32px",
+        }}
       >
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <Image
-              src={theme === "dark" ? "/avisio-logo-full-dark.svg" : "/avisio-logo-full-light.svg"}
-              alt="Avisio"
-              width={120}
-              height={32}
-              priority
-            />
+            {mounted && (
+              <Image
+                src={theme === "dark" ? "/avisio-logo-full-dark.svg" : "/avisio-logo-full-light.svg"}
+                alt="Avisio"
+                width={120}
+                height={32}
+                priority
+                style={{
+                  width: "8.33vw",
+                  minWidth: "100px",
+                  height: "auto",
+                }}
+              />
+            )}
           </Link>
 
           {/* Right side controls */}
