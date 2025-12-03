@@ -1,11 +1,22 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, MotionValue, useTransform } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
 
-export default function HeroVisuals() {
+interface HeroVisualsProps {
+  scrollProgress?: MotionValue<number>;
+  entranceComplete?: boolean;
+}
+
+export default function HeroVisuals({ scrollProgress, entranceComplete = false }: HeroVisualsProps) {
   const { theme, mounted } = useTheme();
+
+  // Exit transforms - starts after headlines begin (0.12), before subhead (0.15)
+  // Sequence: Headlines (0) → Blob (0.12) → Subhead (0.15) → CTA (0.25)
+  const visualsOpacity = useTransform(scrollProgress ?? new MotionValue(), [0.12, 0.45], [1, 0]);
+  const visualsScale = useTransform(scrollProgress ?? new MotionValue(), [0.12, 0.45], [1, 0.7]);
 
   // Blob native: 1067×1091, Sphere native: 391×395
   // Sphere is ~37% the size of blob (391/1067 ≈ 0.37)
@@ -22,7 +33,15 @@ export default function HeroVisuals() {
     >
       <motion.div
         className="w-full h-full"
-        style={{ transformOrigin: "center center" }}
+        style={{
+          transformOrigin: "center center",
+          ...(entranceComplete && scrollProgress
+            ? {
+                opacity: visualsOpacity,
+                scale: visualsScale,
+              }
+            : {}),
+        }}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: mounted ? 1 : 0, scale: mounted ? 1 : 0.8 }}
         transition={{

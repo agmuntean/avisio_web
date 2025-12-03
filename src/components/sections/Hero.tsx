@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import HeroVisuals from "./HeroVisuals";
 
@@ -18,16 +18,47 @@ const TIMING = {
 
 export default function Hero() {
   const { theme, mounted, toggleTheme } = useTheme();
-  const hasScrolledRef = useRef(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [entranceComplete, setEntranceComplete] = useState(false);
 
-  // Handle scroll interruption - we'll use CSS to handle the snap
+  // Track when entrance animation is complete
   useEffect(() => {
-    const handleScroll = () => {
-      hasScrolledRef.current = true;
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const timer = setTimeout(() => {
+      setEntranceComplete(true);
+    }, (TIMING.buttonDelay + TIMING.buttonDuration) * 1000);
+    return () => clearTimeout(timer);
   }, []);
+
+  // Scroll progress for exit animation
+  // Starts at 0 when hero is fully visible, reaches 1 when scrolled past
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Exit transforms - only apply after entrance is complete
+  // Staggered sequence: Headlines → Blob → Subhead → CTA
+  // Elements move UP (negative Y) as they fade out - more natural scroll feel
+
+  // 1. Headlines: start first (0 → 0.35)
+  const headlineOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+  const headlineY = useTransform(scrollYProgress, [0, 0.35], [0, -40]);
+
+  // 2. Blob/sphere timing is in HeroVisuals - starts at 0.12 (after headlines begin)
+
+  // 3. Subhead: starts after blob begins (0.15 → 0.5)
+  const subheadOpacity = useTransform(scrollYProgress, [0.15, 0.5], [1, 0]);
+  const subheadY = useTransform(scrollYProgress, [0.15, 0.5], [0, -40]);
+
+  // 4. CTA button: starts last (0.25 → 0.55)
+  const ctaOpacity = useTransform(scrollYProgress, [0.25, 0.55], [1, 0]);
+  const ctaY = useTransform(scrollYProgress, [0.25, 0.55], [0, -40]);
+
+  // Logo: fade out with subhead
+  const logoOpacity = useTransform(scrollYProgress, [0.2, 0.5], [1, 0]);
+
+  // Theme toggle: fade out with subhead
+  const toggleOpacity = useTransform(scrollYProgress, [0.2, 0.5], [1, 0]);
 
   const handleCTAClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -54,6 +85,7 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative h-screen hero-gradient"
       style={{
@@ -65,6 +97,7 @@ export default function Hero() {
         style={{
           width: "8.33vw",
           minWidth: "80px",
+          opacity: entranceComplete ? logoOpacity : undefined,
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: mounted ? 1 : 0 }}
@@ -114,12 +147,20 @@ export default function Hero() {
               key={line}
               className="block"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={entranceComplete ? false : { opacity: 1, y: 0 }}
               transition={{
                 duration: TIMING.headlineDuration,
                 delay: TIMING.headlineDelay[index],
                 ease: "easeOut",
               }}
+              style={
+                entranceComplete
+                  ? {
+                      opacity: headlineOpacity,
+                      y: headlineY,
+                    }
+                  : undefined
+              }
             >
               {line}
             </motion.span>
@@ -133,9 +174,15 @@ export default function Hero() {
             fontSize: "1.67vw",
             lineHeight: 1.6,
             marginTop: "2.78vw",
+            ...(entranceComplete
+              ? {
+                  opacity: subheadOpacity,
+                  y: subheadY,
+                }
+              : {}),
           }}
           initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
+          animate={entranceComplete ? false : { opacity: 1, x: 0 }}
           transition={{
             duration: TIMING.subheadDuration,
             delay: TIMING.subheadDelay,
@@ -151,9 +198,15 @@ export default function Hero() {
         <motion.div
           style={{
             marginTop: "3.47vw",
+            ...(entranceComplete
+              ? {
+                  opacity: ctaOpacity,
+                  y: ctaY,
+                }
+              : {}),
           }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={entranceComplete ? false : { opacity: 1 }}
           transition={{
             duration: TIMING.buttonDuration,
             delay: TIMING.buttonDelay,
@@ -175,7 +228,7 @@ export default function Hero() {
       </div>
 
       {/* Hero Visuals - Blob + Sphere on right side */}
-      <HeroVisuals />
+      <HeroVisuals scrollProgress={scrollYProgress} entranceComplete={entranceComplete} />
 
       {/* Temporary Theme Toggle - Top Right */}
       <motion.button
@@ -188,6 +241,11 @@ export default function Hero() {
           minWidth: "32px",
           minHeight: "32px",
           border: "1px solid var(--foreground-75)",
+          ...(entranceComplete
+            ? {
+                opacity: toggleOpacity,
+              }
+            : {}),
         }}
         aria-label={theme === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro"}
         initial={{ opacity: 0 }}
