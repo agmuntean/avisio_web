@@ -3,14 +3,14 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
-// Phrase data with alignment and bar colors
+// Phrase data with alignment, bar colors, and cursor glow colors
 const phrases = [
-  { text: "Abrir el PDF.", align: "left", barColor: "var(--phrase-bar-1)" },
-  { text: "Buscar los datos.", align: "right", barColor: "var(--phrase-bar-2)" },
-  { text: "Copiar a mano.", align: "left", barColor: "var(--phrase-bar-1)" },
-  { text: "Cruzar los dedos.", align: "right", barColor: "var(--phrase-bar-2)" },
-  { text: "Recordar el vencimiento.", align: "left", barColor: "var(--phrase-bar-1)" },
-  { text: "Avisar al cliente.", align: "right", barColor: "var(--phrase-bar-2)" },
+  { text: "Abrir el PDF.", align: "left", barColor: "var(--phrase-bar-1)", cursorColor: "var(--phrase-cursor-1)" },
+  { text: "Buscar los datos.", align: "right", barColor: "var(--phrase-bar-2)", cursorColor: "var(--phrase-cursor-2)" },
+  { text: "Copiar a mano.", align: "left", barColor: "var(--phrase-bar-1)", cursorColor: "var(--phrase-cursor-1)" },
+  { text: "Cruzar los dedos.", align: "right", barColor: "var(--phrase-bar-2)", cursorColor: "var(--phrase-cursor-2)" },
+  { text: "Recordar el vencimiento.", align: "left", barColor: "var(--phrase-bar-1)", cursorColor: "var(--phrase-cursor-1)" },
+  { text: "Avisar al cliente.", align: "right", barColor: "var(--phrase-bar-2)", cursorColor: "var(--phrase-cursor-2)" },
 ] as const;
 
 // Individual phrase component with scroll-driven bar animation
@@ -19,6 +19,7 @@ function BarPhrase({
   text,
   align,
   barColor,
+  cursorColor,
   scrollProgress,
   revealStart,
   revealEnd,
@@ -26,6 +27,7 @@ function BarPhrase({
   text: string;
   align: "left" | "right";
   barColor: string;
+  cursorColor: string;
   scrollProgress: MotionValue<number>;
   revealStart: number;
   revealEnd: number;
@@ -48,6 +50,24 @@ function BarPhrase({
     }
   });
 
+  // Cursor position - at the leading edge of the bar
+  // Left-aligned: cursor at right edge (w%)
+  // Right-aligned: cursor at left edge (100-w%)
+  const cursorPosition = useTransform(barWidthNum, (w) => {
+    if (align === "left") {
+      return `${w}%`;
+    } else {
+      return `${100 - w}%`;
+    }
+  });
+
+  // Cursor opacity - visible while animating, fade out at start and end
+  const cursorOpacity = useTransform(barWidthNum, (w) => {
+    if (w <= 2) return 0;
+    if (w >= 98) return 0;
+    return 1;
+  });
+
   return (
     <div
       className="relative"
@@ -67,8 +87,19 @@ function BarPhrase({
         }}
       />
 
-      {/* Text with knockout effect - uses mix-blend-mode */}
-      {/* Container constrains text width while bar spans full viewport */}
+      {/* Glowing cursor at leading edge - full height, solid color */}
+      <motion.div
+        className="absolute top-0 bottom-0 pointer-events-none"
+        style={{
+          width: "2px",
+          backgroundColor: cursorColor,
+          boxShadow: `0 0 12px ${cursorColor}, 0 0 24px ${cursorColor}`,
+          left: cursorPosition,
+          opacity: cursorOpacity,
+        }}
+      />
+
+      {/* Text container */}
       <div
         className="relative max-w-5xl mx-auto"
         style={{
@@ -137,7 +168,7 @@ export default function Problem() {
       className="px-6"
       style={{
         paddingTop: "2vw",
-        paddingBottom: "12vw",
+        paddingBottom: "6vw",
       }}
     >
       {/* Headline with Scroll-Driven Line Sweep Reveal */}
@@ -223,6 +254,7 @@ export default function Problem() {
                 text={phrase.text}
                 align={phrase.align}
                 barColor={phrase.barColor}
+                cursorColor={phrase.cursorColor}
                 scrollProgress={phrasesProgress}
                 revealStart={revealStart}
                 revealEnd={revealEnd}
@@ -235,11 +267,11 @@ export default function Problem() {
       {/* Closer - the sigh, exhausted finality */}
       <div className="max-w-5xl mx-auto text-center">
         <p
-          className="font-sans text-foreground font-medium transition-colors"
+          className="font-display text-muted-foreground italic transition-colors"
           style={{
-            marginTop: "10vw",
-            fontSize: "clamp(1.25rem, 3vw, 2.25rem)",
-            lineHeight: 1.25,
+            marginTop: "8vw",
+            fontSize: "clamp(1.5rem, 3.5vw, 2.75rem)",
+            lineHeight: 1.2,
           }}
         >
           Y mañana, otro más.

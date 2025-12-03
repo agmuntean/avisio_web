@@ -7,9 +7,10 @@ export default function Solution() {
   const sectionRef = useRef<HTMLElement>(null);
 
   // Track scroll progress for headline reveal
+  // Starts later than Problem (0.7 vs 0.85) so there's a clear pause between sections
   const { scrollYProgress: headlineProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 0.85", "start 0.15"],
+    offset: ["start 0.7", "start 0.1"],
   });
 
   // Headline reveals - same as Problem section
@@ -34,7 +35,7 @@ export default function Solution() {
       id="solucion"
       className="px-6"
       style={{
-        paddingTop: "12vw",
+        paddingTop: "8vw",
         paddingBottom: "12vw",
       }}
     >

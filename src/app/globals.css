@@ -9,7 +9,9 @@
 :root {
   /* Core Colors - Light Mode (Default) */
   --background: #FAF8F5;
+  --background-rgb: 250, 248, 245;
   --foreground: #1A1714;
+  --foreground-rgb: 26, 23, 20;
 
   /* Primary - Deep Purple in light, Electric Purple in dark */
   --primary: #390099;
@@ -57,12 +59,18 @@
   /* Phrase bar colors - vibrant for light mode */
   --phrase-bar-1: rgba(220, 20, 60, 0.92);
   --phrase-bar-2: rgba(255, 130, 0, 0.92);
+
+  /* Phrase bar cursor glow colors - darker/richer versions */
+  --phrase-cursor-1: #B01030;
+  --phrase-cursor-2: #CC6600;
 }
 
 [data-theme="dark"] {
   /* Core Colors - Dark Mode */
   --background: #17120F;
+  --background-rgb: 23, 18, 15;
   --foreground: #F5F1E8;
+  --foreground-rgb: 245, 241, 232;
 
   /* Primary - Vibrant Purple for dark mode */
   --primary: #6227e6;
@@ -104,9 +112,13 @@
   /* Muted rose for passed phrases - lighter for dark mode */
   --muted-rose: #D4899A;
 
-  /* Phrase bar colors - visible for testing */
-  --phrase-bar-1: rgba(238, 21, 72, 0.8);
-  --phrase-bar-2: rgba(255, 162, 22, 0.8);
+  /* Phrase bar colors - lighter for dark mode */
+  --phrase-bar-1: rgba(255, 70, 100, 0.9);
+  --phrase-bar-2: rgba(255, 180, 50, 0.9);
+
+  /* Phrase bar cursor glow colors - vibrant for dark mode */
+  --phrase-cursor-1: #FF4060;
+  --phrase-cursor-2: #FFB020;
 }
 
 /* ============================================

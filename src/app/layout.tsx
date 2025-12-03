@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DM_Serif_Display, IBM_Plex_Sans } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
-// import Header from "@/components/layout/Header";
+import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
@@ -52,7 +52,7 @@ export default function RootLayout({
         <ThemeProvider>
           <LenisProvider>
             <BackgroundLayer>
-              {/* <Header /> */}
+              <Header />
               {children}
               <Footer />
             </BackgroundLayer>

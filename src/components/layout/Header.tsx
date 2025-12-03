@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useTheme } from "@/components/providers/ThemeProvider";
 
 function ThemeToggle() {
@@ -53,7 +53,20 @@ function ThemeToggle() {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { theme } = useTheme();
+
+  // Track scroll position to toggle header style
+  useEffect(() => {
+    const handleScrollEvent = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScrollEvent, { passive: true });
+    handleScrollEvent(); // Check initial state
+
+    return () => window.removeEventListener("scroll", handleScrollEvent);
+  }, []);
 
   const handleScroll = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -91,12 +104,26 @@ export default function Header() {
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-transparent">
-      <div className="container mx-auto px-6 py-4">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+        isScrolled
+          ? "backdrop-blur-md shadow-sm"
+          : ""
+      }`}
+      style={{
+        backgroundColor: isScrolled ? "rgba(var(--background-rgb), 0.90)" : "transparent",
+        borderColor: isScrolled ? "rgba(var(--foreground-rgb), 0.1)" : "transparent",
+      }}
+    >
+      <div
+        className={`container mx-auto px-6 transition-all duration-300 ${
+          isScrolled ? "py-4" : "py-8"
+        }`}
+      >
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <Image
-              src={theme === "dark" ? "/avisio-logo-full-light.svg" : "/avisio-logo-full.svg"}
+              src={theme === "dark" ? "/avisio-logo-full-dark.svg" : "/avisio-logo-full-light.svg"}
               alt="Avisio"
               width={120}
               height={32}
@@ -104,69 +131,64 @@ export default function Header() {
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-8">
-            <li>
-              <a
-                href="#como-funciona"
-                onClick={(e) => handleScroll(e, "como-funciona")}
-                className="font-sans text-foreground hover:text-primary transition-colors"
-              >
-                Cómo funciona
-              </a>
-            </li>
-            <li>
-              <a
-                href="#sobre-nosotros"
-                onClick={(e) => handleScroll(e, "sobre-nosotros")}
-                className="font-sans text-foreground hover:text-primary transition-colors"
-              >
-                Sobre nosotros
-              </a>
-            </li>
-            <li>
-              <a
-                href="#footer"
-                onClick={(e) => handleScroll(e, "footer")}
-                className="font-sans bg-primary text-primary-foreground px-5 py-2.5 rounded-lg hover:bg-primary/90 transition-colors"
-              >
-                Solicita una demo
-              </a>
-            </li>
-            <li>
-              <ThemeToggle />
-            </li>
-          </ul>
+          {/* Right side controls */}
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
+            <ThemeToggle />
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={isMenuOpen}
-          >
-            <span
-              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                isMenuOpen ? "rotate-45 translate-y-2" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                isMenuOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-foreground transition-all duration-300 ${
-                isMenuOpen ? "-rotate-45 -translate-y-2" : ""
-              }`}
-            />
-          </button>
+            {/* Login Button */}
+            <a
+              href="https://app.avisio.es"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-foreground/10 transition-colors"
+              aria-label="Iniciar sesión"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </a>
+
+            {/* Hamburger Menu Button */}
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded-lg hover:bg-foreground/10 transition-colors"
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={isMenuOpen}
+            >
+              <span
+                className={`block w-5 h-0.5 bg-foreground transition-all duration-300 ${
+                  isMenuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+              />
+              <span
+                className={`block w-5 h-0.5 bg-foreground transition-all duration-300 ${
+                  isMenuOpen ? "opacity-0" : ""
+                }`}
+              />
+              <span
+                className={`block w-5 h-0.5 bg-foreground transition-all duration-300 ${
+                  isMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
+              />
+            </button>
+          </div>
         </nav>
 
-        {/* Mobile Navigation */}
+        {/* Dropdown Menu */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ${
+          className={`overflow-hidden transition-all duration-300 ${
             isMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
@@ -197,9 +219,6 @@ export default function Header() {
               >
                 Solicita una demo
               </a>
-            </li>
-            <li className="pt-2">
-              <ThemeToggle />
             </li>
           </ul>
         </div>
