@@ -30,49 +30,49 @@ export default function HeroVisuals() {
           ease: "easeOut",
         }}
       >
-      {/* Blob - fills container */}
-      <div className="absolute inset-0">
-        {mounted && (
-          <Image
-            src={
-              theme === "light"
-                ? "/hero-blob-light.svg"
-                : "/hero-blob-dark.svg"
-            }
-            alt=""
-            fill
-            style={{
-              objectFit: "contain",
-            }}
-            priority
-          />
-        )}
-      </div>
+        {/* Blob - fills container */}
+        <div className="absolute inset-0">
+          {mounted && (
+            <Image
+              src={
+                theme === "light"
+                  ? "/hero-blob-light.svg"
+                  : "/hero-blob-dark.svg"
+              }
+              alt=""
+              fill
+              style={{
+                objectFit: "contain",
+              }}
+              priority
+            />
+          )}
+        </div>
 
-      {/* Sphere - centered, ~37% of blob size */}
-      <div
-        className="absolute"
-        style={{
-          zIndex: 1,
-          top: "50%",
-          left: "calc(50% + 1.39vw)",
-          transform: "translate(-50%, -50%)",
-          width: "37%",
-          height: "37%",
-        }}
-      >
-        {mounted && (
-          <Image
-            src="/hero-sphere.svg"
-            alt=""
-            fill
-            style={{
-              objectFit: "contain",
-            }}
-            priority
-          />
-        )}
-      </div>
+        {/* Sphere - centered, ~37% of blob size */}
+        <div
+          className="absolute"
+          style={{
+            zIndex: 1,
+            top: "50%",
+            left: "calc(50% + 1.39vw)",
+            transform: "translate(-50%, -50%)",
+            width: "37%",
+            height: "37%",
+          }}
+        >
+          {mounted && (
+            <Image
+              src="/hero-sphere.svg"
+              alt=""
+              fill
+              style={{
+                objectFit: "contain",
+              }}
+              priority
+            />
+          )}
+        </div>
       </motion.div>
     </div>
   );
