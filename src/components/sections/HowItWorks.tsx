@@ -2,15 +2,26 @@ export default function HowItWorks() {
   return (
     <section
       id="como-funciona"
-      className="min-h-screen flex items-center justify-center py-section px-6"
+      className="px-6"
+      style={{
+        paddingTop: "10vw",
+        paddingBottom: "10vw",
+      }}
     >
-      <div className="max-w-4xl">
-        <h2 className="font-display text-section-title text-foreground text-center text-balance transition-colors">
+      <div className="max-w-4xl mx-auto text-center">
+        <h2 className="font-display text-section-title text-foreground text-balance transition-colors">
           Ya en serio. Así funciona.
         </h2>
-        <div className="mt-20 md:mt-28 space-y-16 md:space-y-24">
+
+        <div
+          className="flex flex-col"
+          style={{
+            marginTop: "8vw",
+            gap: "6vw",
+          }}
+        >
           {/* Step 1 */}
-          <div className="text-center">
+          <div>
             <span className="inline-block font-sans text-sm font-semibold text-primary uppercase tracking-widest mb-4">
               Paso 1
             </span>
@@ -23,7 +34,7 @@ export default function HowItWorks() {
           </div>
 
           {/* Step 2 */}
-          <div className="text-center">
+          <div>
             <span className="inline-block font-sans text-sm font-semibold text-primary uppercase tracking-widest mb-4">
               Paso 2
             </span>
@@ -36,7 +47,7 @@ export default function HowItWorks() {
           </div>
 
           {/* Step 3 */}
-          <div className="text-center">
+          <div>
             <span className="inline-block font-sans text-sm font-semibold text-primary uppercase tracking-widest mb-4">
               Paso 3
             </span>
