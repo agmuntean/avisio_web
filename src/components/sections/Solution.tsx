@@ -1,6 +1,36 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+
 export default function Solution() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Track scroll progress for headline reveal
+  const { scrollYProgress: headlineProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.85", "start 0.15"],
+  });
+
+  // Headline reveals - same as Problem section
+  const line1Progress = useTransform(headlineProgress, [0, 0.5], [100, 0]);
+  const line2Progress = useTransform(headlineProgress, [0.5, 1], [100, 0]);
+  const line1Position = useTransform(headlineProgress, [0, 0.5], [0, 100]);
+  const line2Position = useTransform(headlineProgress, [0.5, 1], [0, 100]);
+  const line1Opacity = useTransform(
+    headlineProgress,
+    [0, 0.02, 0.48, 0.5],
+    [0, 1, 1, 0]
+  );
+  const line2Opacity = useTransform(
+    headlineProgress,
+    [0.5, 0.52, 0.98, 1],
+    [0, 1, 1, 0]
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="solucion"
       className="px-6"
       style={{
@@ -8,19 +38,64 @@ export default function Solution() {
         paddingBottom: "12vw",
       }}
     >
-      {/* Headline - EDGE TO EDGE, mirror bookend to Problem */}
-      <h2
-        className="font-display text-foreground uppercase transition-colors text-center"
-        style={{
-          fontSize: "clamp(2.5rem, 10vw, 12rem)",
-          lineHeight: 0.95,
-          letterSpacing: "-0.03em",
-        }}
-      >
-        CON AVISIO,
-        <br />
-        OTRO RITUAL.
-      </h2>
+      {/* Headline with Scroll-Driven Line Sweep Reveal - same as Problem */}
+      <div className="flex flex-col items-center">
+        {/* Line 1: "CON AVISIO," */}
+        <div className="relative overflow-hidden inline-block">
+          <motion.div
+            className="font-display text-foreground uppercase transition-colors"
+            style={{
+              fontSize: "clamp(2.5rem, 10vw, 12rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              clipPath: useTransform(line1Progress, (v) => `inset(0 ${v}% 0 0)`),
+            }}
+          >
+            CON AVISIO,
+          </motion.div>
+
+          {/* Sweeping vertical line for Line 1 */}
+          <motion.div
+            className="absolute top-0 bottom-0 pointer-events-none"
+            style={{
+              width: "2px",
+              background:
+                "linear-gradient(180deg, transparent 0%, var(--primary) 15%, var(--primary) 85%, transparent 100%)",
+              boxShadow: "0 0 20px var(--primary), 0 0 40px var(--primary)",
+              left: useTransform(line1Position, (v) => `${v}%`),
+              opacity: line1Opacity,
+            }}
+          />
+        </div>
+
+        {/* Line 2: "OTRO RITUAL." */}
+        <div className="relative overflow-hidden inline-block">
+          <motion.div
+            className="font-display text-foreground uppercase transition-colors"
+            style={{
+              fontSize: "clamp(2.5rem, 10vw, 12rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              clipPath: useTransform(line2Progress, (v) => `inset(0 ${v}% 0 0)`),
+            }}
+          >
+            OTRO RITUAL.
+          </motion.div>
+
+          {/* Sweeping vertical line for Line 2 */}
+          <motion.div
+            className="absolute top-0 bottom-0 pointer-events-none"
+            style={{
+              width: "2px",
+              background:
+                "linear-gradient(180deg, transparent 0%, var(--primary) 15%, var(--primary) 85%, transparent 100%)",
+              boxShadow: "0 0 20px var(--primary), 0 0 40px var(--primary)",
+              left: useTransform(line2Position, (v) => `${v}%`),
+              opacity: line2Opacity,
+            }}
+          />
+        </div>
+      </div>
 
       <div className="max-w-5xl mx-auto text-center">
         {/* Subhead - statement level, impactful */}
