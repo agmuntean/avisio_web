@@ -80,13 +80,11 @@ function BarPhrase({
         }}
       >
         <p
-          className="font-sans font-normal"
+          className="font-sans font-normal text-background transition-colors"
           style={{
             fontSize: "clamp(1.25rem, 3vw, 2.5rem)",
             lineHeight: 1.3,
             textAlign: align,
-            color: "var(--background)",
-            mixBlendMode: "difference",
           }}
         >
           {text}
