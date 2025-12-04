@@ -36,12 +36,12 @@ export default function Footer() {
           {/* Left Column - About */}
           <div className="flex flex-col justify-start">
             <p className="font-sans text-white text-lg md:text-xl leading-relaxed mb-4">
-              Avisio es un producto de <span className="font-semibold">Axiomik Systems SL</span>, una empresa tecnológica española especializada en soluciones de automatización inteligente para el sector asegurador.
+              Avisio es un producto de <span className="font-semibold">Axiomik Systems SL</span>, una empresa de IA valenciana. Entendemos la burocracia española porque la sufrimos igual que tú. Y decidimos que ya era hora de hacer algo al respecto.
             </p>
-            <p className="font-sans text-white/90 text-base md:text-lg leading-relaxed mb-6">
-              Nuestra misión es eliminar el trabajo manual repetitivo, permitiendo que los profesionales se concentren en lo que realmente importa: sus clientes.
+            <p className="font-sans text-white/90 text-base md:text-lg leading-relaxed mb-4">
+              Hoy procesamos aplazamientos, requerimientos y liquidaciones de la AEAT. Mañana, todo lo que Hacienda te envíe.
             </p>
-            <p className="font-sans text-white/70 text-base md:text-lg">
+            <p className="font-sans text-white font-semibold text-lg md:text-xl">
               Pruébalo con tus propios PDFs.
             </p>
           </div>
