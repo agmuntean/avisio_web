@@ -40,7 +40,7 @@
   --foreground-75: rgba(26, 23, 20, 0.25);
 
   /* Footer */
-  --footer-height: 340px;
+  --footer-height: 100vh;
 
   /* Gradient blob colors - Light mode */
   --blob-purple-core: #390099;
@@ -63,6 +63,12 @@
   /* Phrase bar cursor glow colors - darker/richer versions */
   --phrase-cursor-1: #B01030;
   --phrase-cursor-2: #CC6600;
+
+  /* Status colors */
+  --success: #10B981;
+  --success-rgb: 16, 185, 129;
+  --warning: #F59E0B;
+  --warning-rgb: 245, 158, 11;
 }
 
 [data-theme="dark"] {
@@ -119,6 +125,12 @@
   /* Phrase bar cursor glow colors - vibrant for dark mode */
   --phrase-cursor-1: #FF4060;
   --phrase-cursor-2: #FFB020;
+
+  /* Status colors - dark mode */
+  --success: #1A9A6E;
+  --success-rgb: 26, 154, 110;
+  --warning: #E07A5F;
+  --warning-rgb: 224, 122, 95;
 }
 
 /* ============================================
