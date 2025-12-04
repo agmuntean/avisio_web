@@ -69,6 +69,10 @@
   --success-rgb: 16, 185, 129;
   --warning: #F59E0B;
   --warning-rgb: 245, 158, 11;
+
+  /* CTA Button gradients (footer) */
+  --gradient-cta: linear-gradient(135deg, #F5A030 0%, #EB7040 35%, #E05050 70%, #D64060 100%);
+  --gradient-cta-hover: linear-gradient(135deg, #FFB040 0%, #F58050 35%, #EA6060 70%, #E05070 100%);
 }
 
 [data-theme="dark"] {

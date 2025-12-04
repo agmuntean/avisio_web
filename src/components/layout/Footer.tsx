@@ -98,14 +98,14 @@ export default function Footer() {
                 type="submit"
                 className="relative w-full px-8 py-3.5 rounded-lg text-lg font-semibold text-white transition-all duration-300 mt-2 hover:scale-[1.03] overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, #F5A030 0%, #EB7040 35%, #E05050 70%, #D64060 100%)",
+                  background: "var(--gradient-cta)",
                 }}
               >
                 <span className="relative z-10">Solicitar demo</span>
                 <div
                   className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300"
                   style={{
-                    background: "linear-gradient(135deg, #FFB040 0%, #F58050 35%, #EA6060 70%, #E05070 100%)",
+                    background: "var(--gradient-cta-hover)",
                   }}
                 />
               </button>
