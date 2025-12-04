@@ -125,9 +125,11 @@ function BarPhrase({
   );
 }
 
+
 export default function Problem() {
   const sectionRef = useRef<HTMLElement>(null);
   const phrasesRef = useRef<HTMLDivElement>(null);
+  const closerRef = useRef<HTMLDivElement>(null);
 
   // Track scroll progress for headline reveal
   const { scrollYProgress: headlineProgress } = useScroll({
@@ -141,6 +143,23 @@ export default function Problem() {
     target: phrasesRef,
     offset: ["start 0.7", "end 0.3"],
   });
+
+  // Track scroll progress for closer "rushing at you" animation
+  // Needs more scroll distance for the dramatic scale effect
+  const { scrollYProgress: closerProgress } = useScroll({
+    target: closerRef,
+    offset: ["start 0.95", "end 0.1"],
+  });
+
+  // Closer transforms - starts tiny (far away), rushes toward you, grows massive
+  // Scale: 0.3 (tiny/distant) -> 1 (normal) -> 2.5 (huge/in your face)
+  const closerScale = useTransform(closerProgress, [0, 0.4, 0.85], [0.3, 1, 2.5]);
+  // Opacity: fade in from distance, solid in middle, fade out as it passes
+  const closerOpacity = useTransform(closerProgress, [0, 0.15, 0.7, 0.95], [0, 1, 1, 0]);
+  // Slight rotation for 3D momentum feel - tilts as it rushes past
+  const closerRotate = useTransform(closerProgress, [0, 0.5, 1], [-2, 0, 3]);
+  // Y position - starts slightly below, rises up, then continues past
+  const closerY = useTransform(closerProgress, [0, 0.5, 1], [30, 0, -50]);
 
   // Headline reveals
   const line1Progress = useTransform(headlineProgress, [0, 0.5], [100, 0]);
@@ -264,18 +283,39 @@ export default function Problem() {
         </div>
       </div>
 
-      {/* Closer - the sigh, exhausted finality */}
-      <div className="max-w-5xl mx-auto text-center">
-        <p
-          className="font-display text-muted-foreground italic transition-colors"
+      {/* Closer - "Y mañana, otro más." rushes from the distance and hits you */}
+      <div
+        ref={closerRef}
+        className="relative overflow-hidden"
+        style={{
+          // Tall container for the dramatic scroll animation
+          height: "80vh",
+          marginTop: "4vw",
+        }}
+      >
+        {/* Sticky container to keep text centered while scrolling through */}
+        <div
+          className="sticky top-0 h-screen flex items-center justify-center"
           style={{
-            marginTop: "8vw",
-            fontSize: "clamp(1.5rem, 3.5vw, 2.75rem)",
-            lineHeight: 1.2,
+            perspective: "1000px",
           }}
         >
-          Y mañana, otro más.
-        </p>
+          <motion.p
+            className="font-display text-muted-foreground transition-colors text-center"
+            style={{
+              fontSize: "clamp(2rem, 5vw, 4rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+              scale: closerScale,
+              opacity: closerOpacity,
+              rotate: closerRotate,
+              y: closerY,
+              transformOrigin: "center center",
+            }}
+          >
+            Y mañana, otro más.
+          </motion.p>
+        </div>
       </div>
     </section>
   );
