@@ -127,20 +127,33 @@ export default function Header() {
         }}
       >
         <nav className="flex items-center justify-between">
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex flex-col">
             {mounted && (
-              <Image
-                src={theme === "dark" ? "/avisio-logo-full-dark.svg" : "/avisio-logo-full-light.svg"}
-                alt="Avisio"
-                width={120}
-                height={32}
-                priority
-                style={{
-                  width: "8.33vw",
-                  minWidth: "100px",
-                  height: "auto",
-                }}
-              />
+              <>
+                <Image
+                  src={theme === "dark" ? "/avisio-logo-full-dark.svg" : "/avisio-logo-full-light.svg"}
+                  alt="Avisio"
+                  width={120}
+                  height={32}
+                  priority
+                  style={{
+                    width: "8.33vw",
+                    minWidth: "100px",
+                    height: "auto",
+                  }}
+                />
+                <span
+                  className="font-sans text-muted-foreground transition-all duration-300"
+                  style={{
+                    fontSize: isScrolled ? "0" : "clamp(0.6rem, 0.8vw, 0.75rem)",
+                    opacity: isScrolled ? 0 : 1,
+                    marginTop: isScrolled ? "0" : "4px",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Gestión de Notificaciones AEAT
+                </span>
+              </>
             )}
           </Link>
 
