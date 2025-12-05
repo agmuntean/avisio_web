@@ -138,10 +138,11 @@ export default function Problem() {
   });
 
   // Track scroll progress for phrases section
-  // Starts later (0.7) so headline has time to fully reveal first
+  // Starts lower (0.85 = near bottom quarter) and ends higher (0.15 = near top quarter)
+  // This gives users more time to read each phrase before it scrolls away
   const { scrollYProgress: phrasesProgress } = useScroll({
     target: phrasesRef,
-    offset: ["start 0.7", "end 0.3"],
+    offset: ["start 0.85", "end 0.15"],
   });
 
   // Track scroll progress for closer "rushing at you" animation
@@ -254,7 +255,7 @@ export default function Problem() {
         ref={phrasesRef}
         className="max-w-5xl mx-auto"
         style={{
-          marginTop: "10vw",
+          marginTop: "16vw",
         }}
       >
         <div

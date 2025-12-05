@@ -90,10 +90,10 @@ export default function Trust() {
     offset: ["start 0.6", "start 0.2"],
   });
 
-  // Track scroll progress for rhythm phrase - starts after headline is fully revealed
+  // Track scroll progress for rhythm phrase - starts earlier so it begins animating sooner after headline
   const { scrollYProgress: phraseProgress } = useScroll({
     target: phraseRef,
-    offset: ["start 0.5", "start 0.05"],
+    offset: ["start 0.75", "start 0.2"],
   });
 
   // Line 1: "TUS DATOS NO" - first half of scroll
@@ -188,7 +188,7 @@ export default function Trust() {
         <div
           ref={phraseRef}
           className="max-w-3xl mx-auto"
-          style={{ marginTop: "8vw", paddingTop: "4vh", paddingBottom: "4vh" }}
+          style={{ marginTop: "14vw", paddingTop: "4vh", paddingBottom: "4vh" }}
         >
           <TrustPhrase scrollProgress={phraseProgress} />
         </div>

@@ -497,10 +497,10 @@ export default function Solution() {
   });
 
   // Scroll progress for rhythm phrase
-  // Starts later (0.6) so headline has time to fully reveal first
+  // Starts earlier (0.75) so it begins animating sooner after headline
   const { scrollYProgress: rhythmProgress } = useScroll({
     target: rhythmRef,
-    offset: ["start 0.6", "start 0.15"],
+    offset: ["start 0.75", "start 0.2"],
   });
 
   // Note: flowProgress and closerProgress removed - each FlowStep and CloserBlob
@@ -592,7 +592,7 @@ export default function Solution() {
       </div>
 
       {/* Rhythm phrase - "Mismo PDF. Distinto final." */}
-      <div className="max-w-5xl mx-auto" style={{ marginTop: "6vw" }}>
+      <div className="max-w-5xl mx-auto" style={{ marginTop: "12vw" }}>
         <div
           ref={rhythmRef}
           className="text-center"
