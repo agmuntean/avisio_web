@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 
 // Phrase data with alignment, bar colors, and cursor glow colors
 const phrases = [
@@ -140,9 +140,16 @@ export default function Problem() {
   // Track scroll progress for phrases section
   // Starts lower (0.85 = near bottom quarter) and ends higher (0.15 = near top quarter)
   // This gives users more time to read each phrase before it scrolls away
-  const { scrollYProgress: phrasesProgress } = useScroll({
+  const { scrollYProgress: rawPhrasesProgress } = useScroll({
     target: phrasesRef,
     offset: ["start 0.85", "end 0.15"],
+  });
+
+  // Add spring smoothing so text remains readable during fast scroll
+  const phrasesProgress = useSpring(rawPhrasesProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
   });
 
   // Track scroll progress for closer "rushing at you" animation

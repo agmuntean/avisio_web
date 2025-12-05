@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 import Image from "next/image";
 
 // Words for the rhythm animation
@@ -351,9 +351,16 @@ function CloserBlob({
   const blobRef = useRef<HTMLDivElement>(null);
 
   // Each closer tracks its own scroll - reveals when it reaches viewport center
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: rawScrollProgress } = useScroll({
     target: blobRef,
     offset: ["start 0.7", "start 0.35"],
+  });
+
+  // Add spring smoothing so wave text remains readable during fast scroll
+  const scrollYProgress = useSpring(rawScrollProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
   });
 
   // Blob scales in
@@ -498,9 +505,16 @@ export default function Solution() {
 
   // Scroll progress for rhythm phrase
   // Starts earlier (0.75) so it begins animating sooner after headline
-  const { scrollYProgress: rhythmProgress } = useScroll({
+  const { scrollYProgress: rawRhythmProgress } = useScroll({
     target: rhythmRef,
     offset: ["start 0.75", "start 0.2"],
+  });
+
+  // Add spring smoothing so text remains readable during fast scroll
+  const rhythmProgress = useSpring(rawRhythmProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
   });
 
   // Note: flowProgress and closerProgress removed - each FlowStep and CloserBlob

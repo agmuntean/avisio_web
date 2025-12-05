@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 
 // Words for the rhythm animation
 const trustWords = ["Potenciado", "por", "Mistral,", "la", "IA", "francesa.", "Servidores", "en", "la", "UE.", "Datos", "protegidos", "bajo", "RGPD."];
@@ -91,9 +91,16 @@ export default function Trust() {
   });
 
   // Track scroll progress for rhythm phrase - starts earlier so it begins animating sooner after headline
-  const { scrollYProgress: phraseProgress } = useScroll({
+  const { scrollYProgress: rawPhraseProgress } = useScroll({
     target: phraseRef,
     offset: ["start 0.75", "start 0.2"],
+  });
+
+  // Add spring smoothing so text remains readable during fast scroll
+  const phraseProgress = useSpring(rawPhraseProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
   });
 
   // Line 1: "TUS DATOS NO" - first half of scroll
@@ -124,7 +131,7 @@ export default function Trust() {
         paddingBottom: "12vw",
       }}
     >
-      <div className="max-w-5xl mx-auto text-center">
+      <div className="mx-auto text-center">
         {/* Headline with Scroll-Driven Line Sweep Reveal - 2 lines */}
         <div ref={headlineRef} className="flex flex-col items-center">
           {/* Line 1: "TUS DATOS NO" */}
