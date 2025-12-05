@@ -25,6 +25,8 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
+    let isCancelled = false;
+
     const lenisInstance = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -41,13 +43,21 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     window.lenis = lenisInstance;
 
     function raf(time: number) {
+      if (isCancelled) return;
       lenisInstance.raf(time);
       rafIdRef.current = requestAnimationFrame(raf);
     }
 
-    rafIdRef.current = requestAnimationFrame(raf);
+    // Delay start to allow React hydration to complete
+    const timeoutId = setTimeout(() => {
+      if (!isCancelled) {
+        rafIdRef.current = requestAnimationFrame(raf);
+      }
+    }, 100);
 
     return () => {
+      isCancelled = true;
+      clearTimeout(timeoutId);
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
       }
