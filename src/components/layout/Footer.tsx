@@ -241,6 +241,12 @@ export default function Footer() {
                     }}
                   />
                 </button>
+                <p className="text-white/60 text-xs text-center mt-3">
+                  Al enviar, aceptas nuestra{" "}
+                  <Link href="/privacidad" className="underline hover:text-white/80 transition-colors">
+                    Política de Privacidad
+                  </Link>.
+                </p>
               </form>
             )}
           </div>
@@ -256,13 +262,13 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-6">
             <Link
-              href="#"
+              href="/privacidad"
               className="text-white/70 text-sm font-sans hover:text-white transition-colors"
             >
               Privacidad
             </Link>
             <Link
-              href="#"
+              href="/terminos"
               className="text-white/70 text-sm font-sans hover:text-white transition-colors"
             >
               Términos
