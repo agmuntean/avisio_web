@@ -350,20 +350,13 @@ function CloserBlob({
 }) {
   const blobRef = useRef<HTMLDivElement>(null);
 
-  // Each closer tracks its own scroll - reveals when it reaches viewport center
-  const { scrollYProgress: rawScrollProgress } = useScroll({
+  // Each closer tracks its own scroll progress
+  const { scrollYProgress } = useScroll({
     target: blobRef,
-    offset: ["start 0.7", "start 0.35"],
+    offset: ["start 0.8", "start 0.3"],
   });
 
-  // Add spring smoothing so wave text remains readable during fast scroll
-  const scrollYProgress = useSpring(rawScrollProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  // Blob scales in
+  // Blob scales in (first 40% of progress)
   const blobScale = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
   const blobOpacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
 
@@ -494,7 +487,6 @@ export default function Solution() {
   const sectionRef = useRef<HTMLElement>(null);
   const rhythmRef = useRef<HTMLDivElement>(null);
   const flowRef = useRef<HTMLDivElement>(null);
-  const closerRef = useRef<HTMLDivElement>(null);
 
   // Track scroll progress for headline reveal
   // Starts later than Problem (0.7 vs 0.85) so there's a clear pause between sections
@@ -517,8 +509,6 @@ export default function Solution() {
     restDelta: 0.001,
   });
 
-  // Note: flowProgress and closerProgress removed - each FlowStep and CloserBlob
-  // now has its own scroll tracking for consistent reveal position
 
   // Headline reveals - same as Problem section
   const line1Progress = useTransform(headlineProgress, [0, 0.5], [100, 0]);
@@ -639,28 +629,25 @@ export default function Solution() {
 
       {/* Closer - emotional payoff with blobs and icons */}
       <div
-        ref={closerRef}
-        className="max-w-5xl mx-auto"
-        style={{ marginTop: "18vw" }}
+        className="flex flex-col items-center"
+        style={{
+          marginTop: "18vw",
+          gap: "12vw",
+        }}
       >
-        <div
-          className="flex flex-col items-center justify-center"
-          style={{ gap: "12vw" }}
-        >
-          {/* Tu cliente recibe el aviso - Green blob with bell */}
-          <CloserBlob
-            text="Tu cliente recibe el aviso."
-            color="success"
-            icon="bell"
-          />
+        {/* Tu cliente recibe el aviso - Green blob with bell */}
+        <CloserBlob
+          text="Tu cliente recibe el aviso."
+          color="success"
+          icon="bell"
+        />
 
-          {/* Tú, el café - Amber blob with coffee */}
-          <CloserBlob
-            text="Tú, el café."
-            color="warning"
-            icon="coffee"
-          />
-        </div>
+        {/* Tú, el café - Amber blob with coffee */}
+        <CloserBlob
+          text="Tú, el café."
+          color="warning"
+          icon="coffee"
+        />
       </div>
     </section>
   );

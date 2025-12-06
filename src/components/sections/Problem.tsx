@@ -138,11 +138,9 @@ export default function Problem() {
   });
 
   // Track scroll progress for phrases section
-  // Starts lower (0.85 = near bottom quarter) and ends higher (0.15 = near top quarter)
-  // This gives users more time to read each phrase before it scrolls away
   const { scrollYProgress: rawPhrasesProgress } = useScroll({
     target: phrasesRef,
-    offset: ["start 0.85", "end 0.15"],
+    offset: ["start 0.8", "end 0.2"],
   });
 
   // Add spring smoothing so text remains readable during fast scroll
@@ -257,38 +255,32 @@ export default function Problem() {
         </div>
       </div>
 
-      {/* 6 phrases - alternating layout with colored bars */}
+      {/* 6 phrases with scroll-driven bar reveal */}
       <div
         ref={phrasesRef}
-        className="max-w-5xl mx-auto"
+        className="max-w-5xl mx-auto flex flex-col"
         style={{
           marginTop: "16vw",
+          gap: "1vw",
         }}
       >
-        <div
-          className="flex flex-col"
-          style={{
-            gap: "1vw",
-          }}
-        >
-          {phrases.map((phrase, index) => {
-            const revealStart = index * phraseSegment;
-            const revealEnd = revealStart + phraseSegment * 0.9;
+        {phrases.map((phrase, index) => {
+          const revealStart = index * phraseSegment;
+          const revealEnd = revealStart + phraseSegment * 0.9;
 
-            return (
-              <BarPhrase
-                key={index}
-                text={phrase.text}
-                align={phrase.align}
-                barColor={phrase.barColor}
-                cursorColor={phrase.cursorColor}
-                scrollProgress={phrasesProgress}
-                revealStart={revealStart}
-                revealEnd={revealEnd}
-              />
-            );
-          })}
-        </div>
+          return (
+            <BarPhrase
+              key={index}
+              text={phrase.text}
+              align={phrase.align}
+              barColor={phrase.barColor}
+              cursorColor={phrase.cursorColor}
+              scrollProgress={phrasesProgress}
+              revealStart={revealStart}
+              revealEnd={revealEnd}
+            />
+          );
+        })}
       </div>
 
       {/* Closer - "Y mañana, otro más." rushes from the distance and hits you */}
