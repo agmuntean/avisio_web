@@ -199,9 +199,9 @@ function RingingBell() {
         rotate: [0, 15, -15, 10, -10, 5, -5, 0],
       }}
       transition={{
-        duration: 0.8,
+        duration: 0.5,
         repeat: Infinity,
-        repeatDelay: 2,
+        repeatDelay: 0.8,
         ease: "easeInOut",
       }}
     >
@@ -213,26 +213,30 @@ function RingingBell() {
 // Coffee cup icon with CSS-animated steam
 function CoffeeIcon() {
   return (
-    <div className="text-white relative" style={{ width: "50%", height: "50%" }}>
-      {/* Steam lines - CSS animated divs */}
+    <div className="text-white relative overflow-visible" style={{ width: "50%", height: "50%" }}>
+      {/* Steam lines - positioned above the cup */}
       <div
-        className="absolute flex"
-        style={{ top: "2px", left: "42%", transform: "translateX(-50%)", gap: "3px" }}
+        className="absolute flex justify-center"
+        style={{
+          bottom: "85%",
+          left: "15%",
+          right: "35%",
+          gap: "4px",
+        }}
       >
         <motion.div
           style={{
-            width: "1.5px",
-            minWidth: "1.5px",
-            height: "10px",
+            width: "4px",
+            height: "12px",
             backgroundColor: "white",
-            borderRadius: "1px"
+            borderRadius: "2px"
           }}
           animate={{
-            y: [0, -8, 0],
-            opacity: [0.4, 0.9, 0.4],
+            y: [0, -6, 0],
+            opacity: [0.6, 1, 0.6],
           }}
           transition={{
-            duration: 1.5,
+            duration: 1.2,
             repeat: Infinity,
             ease: "easeInOut",
             delay: 0,
@@ -240,40 +244,38 @@ function CoffeeIcon() {
         />
         <motion.div
           style={{
-            width: "1.5px",
-            minWidth: "1.5px",
-            height: "10px",
+            width: "4px",
+            height: "12px",
             backgroundColor: "white",
-            borderRadius: "1px"
+            borderRadius: "2px"
           }}
           animate={{
-            y: [0, -8, 0],
-            opacity: [0.4, 0.9, 0.4],
+            y: [0, -6, 0],
+            opacity: [0.6, 1, 0.6],
           }}
           transition={{
-            duration: 1.5,
+            duration: 1.2,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 0.5,
+            delay: 0.4,
           }}
         />
         <motion.div
           style={{
-            width: "1.5px",
-            minWidth: "1.5px",
-            height: "10px",
+            width: "4px",
+            height: "12px",
             backgroundColor: "white",
-            borderRadius: "1px"
+            borderRadius: "2px"
           }}
           animate={{
-            y: [0, -8, 0],
-            opacity: [0.4, 0.9, 0.4],
+            y: [0, -6, 0],
+            opacity: [0.6, 1, 0.6],
           }}
           transition={{
-            duration: 1.5,
+            duration: 1.2,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 1,
+            delay: 0.8,
           }}
         />
       </div>
@@ -374,7 +376,7 @@ function CloserBlob({
     <div ref={blobRef} className="flex flex-col items-center gap-4">
       {/* Blob with icon */}
       <motion.div
-        className={`relative ${colorClass} rounded-full flex items-center justify-center`}
+        className={`relative ${colorClass} rounded-full flex items-center justify-center overflow-visible`}
         style={{
           width: "clamp(80px, 12vw, 140px)",
           height: "clamp(80px, 12vw, 140px)",

@@ -8,9 +8,7 @@ const phrases = [
   { text: "Abrir el PDF.", align: "left", barColor: "var(--phrase-bar-1)", cursorColor: "var(--phrase-cursor-1)" },
   { text: "Buscar los datos.", align: "right", barColor: "var(--phrase-bar-2)", cursorColor: "var(--phrase-cursor-2)" },
   { text: "Copiar a mano.", align: "left", barColor: "var(--phrase-bar-1)", cursorColor: "var(--phrase-cursor-1)" },
-  { text: "Cruzar los dedos.", align: "right", barColor: "var(--phrase-bar-2)", cursorColor: "var(--phrase-cursor-2)" },
-  { text: "Recordar el vencimiento.", align: "left", barColor: "var(--phrase-bar-1)", cursorColor: "var(--phrase-cursor-1)" },
-  { text: "Avisar al cliente.", align: "right", barColor: "var(--phrase-bar-2)", cursorColor: "var(--phrase-cursor-2)" },
+  { text: "Recordar y avisar al cliente.", align: "right", barColor: "var(--phrase-bar-2)", cursorColor: "var(--phrase-cursor-2)" },
 ] as const;
 
 // Individual phrase component with scroll-driven bar animation
@@ -138,9 +136,11 @@ export default function Problem() {
   });
 
   // Track scroll progress for phrases section
+  // offset: progress 0 when top at 80% of viewport, progress 1 when top at 30% of viewport
+  // This ensures all bars reveal while container is still comfortably in view
   const { scrollYProgress: rawPhrasesProgress } = useScroll({
     target: phrasesRef,
-    offset: ["start 0.8", "end 0.2"],
+    offset: ["start 0.8", "start 0.3"],
   });
 
   // Add spring smoothing so text remains readable during fast scroll
@@ -183,8 +183,8 @@ export default function Problem() {
     [0, 1, 1, 0]
   );
 
-  // Each phrase gets 1/6 of the scroll range
-  const phraseSegment = 1 / 6;
+  // Each phrase gets 1/4 of the scroll range
+  const phraseSegment = 1 / phrases.length;
 
   return (
     <section
