@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const BREVO_API_URL = "https://api.brevo.com/v3";
 const NOTIFICATION_EMAIL = "adrian.m@axiomik.ai";
-const SENDER_EMAIL = "adrian.m@axiomik.ai";
+const SENDER_EMAIL = "noreply@avisio.es";
 const LIST_NAME = "Demo Requests";
 const BREVO_LIST_URL = "https://app.brevo.com/contact/list/id";
 const MAX_FIELD_LENGTH = 500;
